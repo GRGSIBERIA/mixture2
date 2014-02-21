@@ -6,16 +6,9 @@ require 'mysql2'
 require 'sequel'
 require 'yaml'
 
-dbconfig = YAML::load_file("./config/database.yml")
-Sequel::Model.plugin(:schema)
-dbopts = Hash.new
-mode = "development"
-dbopts[:host] = dbconfig[mode]["host"]
-dbopts[:user] = dbconfig[mode]["username"]
-dbopts[:password] = dbconfig[mode]["password"]
-dbopts[:database] = dbconfig[mode]["database"]
-dbopts[:encoding] = dbconfig[mode]["encoding"]
-DB = Sequel.mysql(nil, dbopts)
+require './helpers/connector.rb'
+
+DB = Connector.mysql
 
 class Server < Sinatra::Base
   configure :development do
