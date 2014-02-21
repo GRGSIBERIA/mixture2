@@ -26,12 +26,26 @@ class Server < Sinatra::Base
     slim :index
   end
 
+  get '/user/new' do 
+    slim :new_user
+  end
+
+  post '/user/create' do 
+
+  end
+
+  get '/user/:id' do 
+
+  end
+
   get '/users' do 
-    @users = User.all
+    @users = DB[:users].all
 
     content_type :json
     @users.to_json
   end
+
+
 end
 
 
