@@ -24,7 +24,7 @@ class Server < Sinatra::Base
   end
 
   post '/user/create' do 
-
+    
   end
 
   get '/user/:id' do 
