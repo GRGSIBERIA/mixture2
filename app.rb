@@ -8,6 +8,8 @@ require 'yaml'
 
 require './helpers/connector.rb'
 
+require './controller/user.rb'
+
 DB = Connector.mysql
 
 class Server < Sinatra::Base
@@ -24,7 +26,8 @@ class Server < Sinatra::Base
   end
 
   post '/user/create' do 
-    
+    @user = Controller::User.create(params)
+    redirect '/'
   end
 
   get '/user/:id' do 
