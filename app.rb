@@ -6,6 +6,8 @@ require 'mysql2'
 require 'sequel'
 require 'yaml'
 
+require './salt.rb'
+
 require './helpers/connector.rb'
 
 require './controller/user.rb'
