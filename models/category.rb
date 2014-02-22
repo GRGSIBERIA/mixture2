@@ -7,5 +7,8 @@ class Category < Sequel::Model
   def validate
     super
     validates_presence [:name]
+
+    validates_min_length 4,   :name
+    validates_max_length 140, :name
   end
 end
