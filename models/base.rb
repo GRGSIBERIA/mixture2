@@ -5,6 +5,10 @@ module Model
   class ModelBase
     include Validation
 
+    def self.inherited(child)
+      @@child = child
+    end
+
     def check_accept(params, acceptance)
       raise_flag = false
       acceptance.each do |key|
@@ -15,12 +19,23 @@ module Model
     end
 
     def initialize(table, params, acceptance)
+      @child = @@child
       @table = table
       @attr = Hash.new
       @acceptance = acceptance
       @validate = []
 
       check_accept(params, acceptance)
+    end
+
+    def validation
+      @validate.each do |x|
+        Validation.method(x[0]).call(@child, @attr, x[1], x[2])
+      end
+    end
+
+    def validates(method, column, params={})
+      @validate << [method, column, params]
     end
 
     def shave_attribute
