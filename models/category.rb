@@ -10,5 +10,7 @@ class Category < Sequel::Model
 
     validates_min_length 4,   :name
     validates_max_length 140, :name
+
+    validates_unique :name
   end
 end
