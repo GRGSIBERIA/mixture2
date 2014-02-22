@@ -8,11 +8,16 @@ class User < Sequel::Model
   def validate
     super
     validates_presence [:name, :email, :password, :nickname]
-    
+
     validates_min_length 4, :name
     validates_min_length 4, :nickname
 
     validates_max_length 80, :name
     validates_max_length 80, :nickname
+
+    validates_unique [:name, :email]
+
+    validates_format(/\A\w+\z/, :name)
+    validates_format(/\A[\wぁ-んァ-ヴ一-龠、-◯]\z/, :nickname)
   end
 end
