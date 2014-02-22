@@ -2,7 +2,7 @@
 
 module Model
   class ModelBase
-    def initialize(params, acceptance)
+    def check_accept(params, acceptance)
       raise_flag = false
       acceptance.each do |key|
         unless params.has_key?(key) then 
@@ -11,8 +11,17 @@ module Model
       end
     end
 
-    def insert_base(table, attribute)
-      DB[table].insert(attribute)
+    def initialize(table, params, acceptance)
+      @table = table
+      @attr = Hash.new
+
+      check_accept(params, acceptance)
+    end
+
+    
+
+    def insert!
+      DB[@table].insert(@attr)
     end
   end
 end
