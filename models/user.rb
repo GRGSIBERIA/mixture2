@@ -13,7 +13,10 @@ module Models
     end
 
     def validate
-      
+      not_null "User", @attr, :name
+      not_null "User", @attr, :nickname
+      not_null "User", @attr, :email
+      not_null "User", @attr, :password
     end
   end
 end
