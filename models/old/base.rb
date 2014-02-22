@@ -1,7 +1,7 @@
 #-*- encoding: utf-8
 require './helpers/validation.rb'
 
-module Model
+module Models
   class ModelBase
     include Validation
 
@@ -50,6 +50,30 @@ module Model
       shave_attribute
       validation
       DB[@table].insert(@attr)
+    end
+
+    def update!
+      shave_attribute
+      validation
+      DB[@table].update(@attr)
+    end
+
+    def delete!
+      
+    end
+
+    def []=(key, value)
+      if !@acceptance.key?(key) then
+        raise ArgumentError, "#{@child}で存在しないキー(#{key})が呼び出されました"
+      end
+      @attr[key] = value
+    end
+
+    def [](key)
+      if !@acceptance.key?(key) then
+        raise ArgumentError, "#{@child}で存在しないキー(#{key})が呼び出されました"
+      end
+      @attr[key]
     end
   end
 end
