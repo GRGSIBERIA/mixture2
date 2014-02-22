@@ -48,7 +48,7 @@ module Model
 
     def insert!
       shave_attribute
-      validate
+      validation
       DB[@table].insert(@attr)
     end
   end

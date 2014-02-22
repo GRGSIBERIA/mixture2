@@ -33,7 +33,16 @@ module Validation
     end
   end
 
+  def format(cname, attribute, key, params)
+    format = params[:with]
+    unless format.match(attribute[:key]).length > 0 then
+      raise ArgumentError, "#{cname}の#{key.to_s}がフォーマットに沿っていません(#{format.to_s})"
+    end
+  end
+
   module_function :not_null
   module_function :not_blank
   module_function :length
+  module_function :prohibition_word
+  module_function :format
 end
