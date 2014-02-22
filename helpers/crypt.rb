@@ -17,4 +17,8 @@ module Crypt
     enc.encrypt.pkcs5_keyivgen(address)
     enc.update(PASSWORD_SALT) + enc.final
   end
+
+  module_function :crypt_password
+  module_function :encrypt_email
+  module_function :decrypt_email
 end
