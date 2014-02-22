@@ -7,7 +7,15 @@ require 'sequel'
 require 'yaml'
 
 require './salt.rb'
+
 #require './models/base.rb'
+require './models/user.rb'
+require './models/post.rb'
+require './models/tag.rb'
+require './models/category.rb'
+require './models/vote_tag.rb'
+require './models/vote_category.rb'
+require './models/post_tag.rb'
 
 require './helpers/connector.rb'
 require './helpers/crypt.rb'
