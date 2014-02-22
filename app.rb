@@ -10,8 +10,9 @@ require './salt.rb'
 require './models/base.rb'
 
 require './helpers/connector.rb'
+require './helpers/crypt.rb'
 
-require './controller/user.rb'
+require './controllers/user.rb'
 
 DB = Connector.mysql
 
