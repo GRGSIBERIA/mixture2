@@ -12,5 +12,7 @@ class Tag < Sequel::Model
     validates_length_range 4..140, :name
 
     validates_unique :name
+
+    validates_format(/\A\w+\z/, :name)
   end
 end
