@@ -13,11 +13,6 @@ module Models
     end
 
     def validate
-      validates :not_null, :name
-      validates :not_null, :nickname
-      validates :not_null, :email
-      validates :not_null, :password
-
       validates :not_blank, :name
       validates :not_blank, :nickname
       validates :not_blank, :email
@@ -26,6 +21,10 @@ module Models
       validates :length, :name,     max: 80,  min: 5
       validates :length, :nickname, max: 80
       validates :length, :email,    max: 256, min: 6
+
+      validates :prohibition_word, :name
+      validates :prohibition_word, :nickname
+      validates :prohibition_word, :email
     end
   end
 end
