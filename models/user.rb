@@ -8,5 +8,7 @@ class User < Sequel::Model
   def validate
     super
     validates_presence [:name, :email, :password, :nickname]
+    validates_min_length 4, :name
+    validates_min_length 4, :nickname
   end
 end
