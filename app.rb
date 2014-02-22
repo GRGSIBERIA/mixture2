@@ -7,7 +7,7 @@ require 'sequel'
 require 'yaml'
 
 require './salt.rb'
-require './models/base.rb'
+#require './models/base.rb'
 
 require './helpers/connector.rb'
 require './helpers/crypt.rb'
