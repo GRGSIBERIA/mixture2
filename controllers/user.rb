@@ -3,10 +3,10 @@ require './models/user.rb'
 
 module Controller
   class User
-    
+    include Crypt
 
     def self.create(params)
-      user = Model::User.new params
+      Models
     end
   end
 end

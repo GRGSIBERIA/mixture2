@@ -1,5 +1,5 @@
 
-module Model
+module Models
   class User < Model::Base
     include Crypt
 
