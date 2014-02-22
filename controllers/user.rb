@@ -6,7 +6,7 @@ module Controller
     include Crypt
 
     def self.create(params)
-      Models
+      user = Models::User.new(params)
     end
   end
 end
