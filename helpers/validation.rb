@@ -13,6 +13,10 @@ module Validation
     end
   end
 
+  def max_length(cname, attribute, key, params)
+    
+  end
+
   module_function :not_null
   module_function :not_blank
 end

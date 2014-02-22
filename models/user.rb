@@ -17,6 +17,11 @@ module Models
       validates :not_null, :nickname
       validates :not_null, :email
       validates :not_null, :password
+
+      validates :not_blank, :name
+      validates :not_blank, :nickname
+      validates :not_blank, :email
+      validates :not_blank, :password
     end
   end
 end
