@@ -4,7 +4,7 @@ require './helpers/validation.rb'
 module Model
   class ModelBase
     include Validation
-    
+
     def check_accept(params, acceptance)
       raise_flag = false
       acceptance.each do |key|
@@ -12,16 +12,6 @@ module Model
           raise ArgumentError, "必要なキーが存在していません: #{key.to_s}"
         end
       end
-    end
-
-    def validate
-      @validate.each do |v|
-        v.call
-      end
-    end
-
-    def validates(type, key, parameter)
-
     end
 
     def initialize(table, params, acceptance)
