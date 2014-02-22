@@ -1,5 +1,6 @@
 #-*- encoding: utf-8
 class VoteCategory < Sequel::Model
+  plugin :validation_helpers
   many_to_one :users
   many_to_one :tags
   many_to_one :categories
