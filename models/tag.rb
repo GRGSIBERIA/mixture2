@@ -9,8 +9,7 @@ class Tag < Sequel::Model
     super
     validates_presence [:name]
 
-    validates_min_length 4,   :name
-    validates_max_length 140, :name
+    validates_length_range 4..140, :name
 
     validates_unique :name
   end

@@ -9,11 +9,8 @@ class User < Sequel::Model
     super
     validates_presence [:name, :email, :password, :nickname]
 
-    validates_min_length 4, :name
-    validates_min_length 4, :nickname
-
-    validates_max_length 80, :name
-    validates_max_length 80, :nickname
+    validates_length_range 4..80, :name
+    validates_length_range 4..80, :nickname
 
     validates_unique [:name, :email]
 
