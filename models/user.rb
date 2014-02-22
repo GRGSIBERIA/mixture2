@@ -22,6 +22,10 @@ module Models
       validates :not_blank, :nickname
       validates :not_blank, :email
       validates :not_blank, :password
+
+      validates :length, :name,     max: 80,  min: 5
+      validates :length, :nickname, max: 80
+      validates :length, :email,    max: 256, min: 6
     end
   end
 end
