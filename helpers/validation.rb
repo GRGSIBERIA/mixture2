@@ -33,10 +33,9 @@ module Validation
     end
   end
 
-  def format(cname, attribute, key, params)
-    format = params[:with]
-    unless format.match(attribute[:key]).length > 0 then
-      raise ArgumentError, "#{cname}の#{key.to_s}がフォーマットに沿っていません(#{format.to_s})"
+  def format(cname, attribute, key, params) 
+    if params[:with].match(attribute[key]).nil? then
+       raise ArgumentError, "#{cname}の#{key.to_s}がフォーマットに沿っていません(#{params[:with].to_s})"
     end
   end
 
