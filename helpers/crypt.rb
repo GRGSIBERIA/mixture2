@@ -9,16 +9,17 @@ module Crypt
 
   def decrypt_email(address)
     dec = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
+    address = Base64::decode64(address)
     dec.decrypt.pkcs5_keyivgen(PASSWORD_SALT)
-    pass = dec.update(address) + dec.final
-    Base64::b64encode(pass)
+    dec.update(address) + dec.final
   end
 
   def encrypt_email(address)
     enc = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
-    address = Base64::b64decode(address)
     enc.encrypt.pkcs5_keyivgen(PASSWORD_SALT)
-    enc.update(address) + enc.final
+    pass = enc.update(address) + enc.final
+    Base64::b64encode(pass)
+    address
   end
 
   module_function :crypt_password

@@ -29,10 +29,10 @@ class User < Sequel::Model
     password = Crypt.crypt_password(params[:password])
     email = Crypt.encrypt_email(params[:email])
     User.new({
-      name:     params[:username],
-      nickname: params[:nickname],
-      password: password,
-      email:    email
+      name:     params[:username].force_encoding(Encoding::UTF_8),
+      nickname: params[:nickname].force_encoding(Encoding::UTF_8),
+      password: password.force_encoding(Encoding::UTF_8),
+      email:    email.force_encoding(Encoding::UTF_8)
       })
   end
 end

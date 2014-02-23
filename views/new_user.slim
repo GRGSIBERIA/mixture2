@@ -1,22 +1,27 @@
-- unless @errors.nil?
-  - for message in @errors.full_messages
-    font size="2" color="red"
-      p
-        = message
-        
+-# encoding: utf-8
+html
+  head
+    meta charset="UTF-8"
+  body
+    - unless @errors.nil?
+      - for message in @errors.full_messages
+        font size="2" color="red"
+          p
+            = message
+            
 
-form method="post" action="/user/create"
-  p
-    strong User Name
-    input type="text" name="username" value="#{@username}"
-  p
-    strong Nickname
-    input type="text" name="nickname" value="#{@nickname}"
-  p
-    strong Email
-    input type="text" name="email" value="#{@email}"
-  p
-    strong Password
-    input type="password" name="password"
-  p
-    input type="submit"
+    form method="post" action="/user/create"
+      p
+        strong User Name
+        input type="text" name="username" value="#{@username}"
+      p
+        strong Nickname
+        input type="text" name="nickname" value="#{@nickname}"
+      p
+        strong Email
+        input type="text" name="email" value="#{@email}"
+      p
+        strong Password
+        input type="password" name="password"
+      p
+        input type="submit"
