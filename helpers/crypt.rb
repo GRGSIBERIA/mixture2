@@ -1,4 +1,5 @@
 require 'openssl'
+require 'base64'
 require "digest/sha2"
 
 module Crypt
@@ -8,14 +9,16 @@ module Crypt
 
   def decrypt_email(address)
     dec = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
-    dec.decrypt.pkcs5_keyivgen(address)
-    dec.update(PASSWORD_SALT) + dec.final
+    dec.decrypt.pkcs5_keyivgen(PASSWORD_SALT)
+    pass = dec.update(address) + dec.final
+    Base64::b64encode(pass)
   end
 
   def encrypt_email(address)
     enc = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
-    enc.encrypt.pkcs5_keyivgen(address)
-    enc.update(PASSWORD_SALT) + enc.final
+    address = Base64::b64decode(address)
+    enc.encrypt.pkcs5_keyivgen(PASSWORD_SALT)
+    enc.update(address) + enc.final
   end
 
   module_function :crypt_password
