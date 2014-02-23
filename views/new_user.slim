@@ -1,8 +1,8 @@
 - unless @errors.nil?
-  - for error in @errors
+  - for message in @errors.full_messages
     font size="2" color="red"
       p
-        = error
+        = message
         
 
 form method="post" action="/user/create"
