@@ -13,5 +13,7 @@ class Category < Sequel::Model
     validates_unique :name
     
     validates_format(/\A\w+\z/, :name)
+
+    errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
   end
 end
