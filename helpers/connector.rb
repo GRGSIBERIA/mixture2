@@ -9,6 +9,6 @@ class Connector
     dbopts[:password] = dbconfig[mode]["password"]
     dbopts[:database] = dbconfig[mode]["database"]
     dbopts[:encoding] = dbconfig[mode]["encoding"]
-    Sequel.mysql(nil, dbopts)
+    Sequel.mysql2(nil, dbopts)
   end
 end
