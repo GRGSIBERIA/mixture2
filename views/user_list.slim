@@ -1,0 +1,15 @@
+h1 User List
+
+table bordercolor="black" border="1"
+  tr
+    td Id
+    td Name
+    td Nick Name
+  - for user in @users
+    tr
+      td 
+        = user[:id]
+      td 
+        = user[:name]
+      td 
+        = user[:nickname]

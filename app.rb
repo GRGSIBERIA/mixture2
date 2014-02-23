@@ -64,12 +64,13 @@ class Server < Sinatra::Base
     end
   end
 
-  get '/user/:id' do 
-
+  get '/user/list' do 
+    @users = DB[:users].all
+    slim :user_list
   end
 
-  get '/user' do 
-    @users = DB[:users].all
+  get '/user/:id' do 
+
   end
 
 
