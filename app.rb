@@ -50,14 +50,16 @@ class Server < Sinatra::Base
     Validation.in_range(@user, :password, params, 4, 140)
     Validation.in_range(@user, :email, params, 5, 256)
 
-    if @user.validate then
+    unless @user.validate then
       @errors = @user.errors
       @username = params[:username]
       @email = params[:email]
       @nickname = params[:nickname]
       slim :new_user
     else
-      redirect '/'
+      @user.save
+      session[:user] = @user.name
+      slim :index
     end
   end
 
