@@ -21,6 +21,17 @@ module Crypt
     Base64::encode64(pass)
   end
 
+  def make_apikey(user)
+    email = user.email
+    password = user.password
+    enc = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
+    enc.encrypt.pkcs5_keyivgen(PASSWORD_SALT)
+    key_base = Digest::SHA256.hexdigest(password + email)
+    key = enc.update(key_base) + enc.final
+    Base64::encode64(key)
+  end
+
+  module_function :make_apikey
   module_function :crypt_password
   module_function :encrypt_email
   module_function :decrypt_email
