@@ -18,17 +18,22 @@ class User < Sequel::Model
     validates_length_range 4..80, :password
     validates_length_range 6..256,:email
 
-    validates_unique [:name, :email]
+    validates_unique :name
+    validates_unique :email
 
     validates_format(/\A\w+\z/, :name)
     validates_format(/\A[\w#{Moji.zen}]+\z/, :nickname)
     validates_format(%r{^(?:(?:(?:(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+)(?:.(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+))*)|(?:"(?:\[^ ]|[^\"])*")))@(?:(?:(?:(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+)(?:.(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+))*)|(?:[(?:\S|[!-Z^-~])*])))$}, :email)
 
-    errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
-    errors.add(:nickname, 'use the invalid word') if INVALID_WORDS.include?(name)
+    errors.add(:name, 'is the invalid word') if INVALID_WORDS.include?(name)
+    errors.add(:nickname, 'is the invalid word') if INVALID_WORDS.include?(name)
 
-    password = Crypt.encrypt_password(password)
-    email = Crypt.encrypt_email(email)
+    begin
+      password = Crypt.encrypt_password(password)
+      email = Crypt.encrypt_email(email)
+    rescue TypeError
+      # 空の文字列を代入されているパターンなので無視する
+    end
   end
 
   def self.add(params)
