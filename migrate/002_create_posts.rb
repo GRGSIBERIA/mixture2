@@ -10,6 +10,7 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
       
+      foreign_key :user_id, :users
       index [:user_id], :name=>:index_posts_on_user_id
     end
     

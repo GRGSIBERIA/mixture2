@@ -9,6 +9,8 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
       
+      foreign_key :tag_id, :tags
+      foreign_key :post_id,:posts
       index [:tag_id, :post_id, :count], :name=>:index_post_tags_on_tag_id_and_post_id_and_count
     end
   end

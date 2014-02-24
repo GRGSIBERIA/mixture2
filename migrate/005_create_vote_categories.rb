@@ -8,6 +8,9 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
       
+      foreign_key :user_id,     :users
+      foreign_key :tag_id,      :tags
+      foreign_key :category_id, :categories
       index [:category_id], :name=>:index_vote_categories_on_category_id
     end
     

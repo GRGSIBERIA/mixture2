@@ -9,6 +9,7 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
       
+      foreign_key :category_id, :categories
       index [:category_id], :name=>:index_tags_on_category_id
       index [:name], :name=>:index_tags_on_name, :unique=>true
     end
