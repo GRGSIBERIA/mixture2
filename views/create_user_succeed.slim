@@ -2,7 +2,9 @@ h1 Welcome! #{session[:user_name]}!
 
 p
   | your API Key
-  table border="1"
-    tr
-      td
-        = session[:apikey]
+p class="apikey"
+  = session[:apikey]
+p
+  | You should be saving this API key. Don't forget, don't lost.
+  br
+  | I'll not reissue your password or API key, never.
