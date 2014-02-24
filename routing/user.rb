@@ -33,6 +33,8 @@ def routing_user
   end
 
   get '/user/:id' do 
-
+    @user = User.find(params[:id])
+    @posts = @user.posts
+    slim :user_info
   end
 end
