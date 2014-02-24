@@ -1,7 +1,13 @@
 h1
-  = @user.name
+  = @user[:name]
 
 table
   tr
     td Id
+    td File Size
   - for post in @posts
+    tr
+      td
+        = post[:id]
+      td
+        = post[:file_size].to_s.reverse.gsub(/(\d{3})/,'\1,').reverse + "Byte"
