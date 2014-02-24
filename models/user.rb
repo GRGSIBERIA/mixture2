@@ -34,4 +34,12 @@ class User < Sequel::Model
       updated_at: Time.now.to_s
       })
   end
+
+  def self.find(id)
+    DB[:users].where(id: id.to_i).first
+  end
+
+  def posts(page_num=0)
+    DB[:posts].where(user_id: id)
+  end
 end
