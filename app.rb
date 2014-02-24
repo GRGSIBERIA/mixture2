@@ -12,6 +12,9 @@ INVALID_WORDS = %w(index home top help about security contact connect support fa
 #Encoding.default_external = Encoding::UTF_8  
 #Encoding.default_internal = Encoding::UTF_8  
 
+NUMBER_OF_CONTENTS_PER_PAGE = 20
+NUMBER_OF_WORDS_PER_PAGE = 50
+
 require './salt.rb'
 require './helpers/connector.rb'
 require './helpers/crypt.rb'
@@ -30,7 +33,6 @@ require './models/post_tag.rb'
 require './helpers/verify.rb' # DBを利用するためモデルの後に読み込む
 
 require './routing/user.rb'
-
 
 
 class Server < Sinatra::Base
