@@ -21,7 +21,12 @@ class Category < Sequel::Model
     DB[:categories].where(id: id.to_i).first
   end
 
-  def self.tags(category)
-    
+  def self.tags(category_id, page_num=0)
+    ofst = page_num * NUMBER_OF_WORDS_PER_PAGE
+    DB[:tags]
+      .where(category_id: category_id.to_i)
+      .order(Sequel.asc(:name))
+      .offset(ofst)
+      .limit(NUMBER_OF_WORDS_PER_PAGE)
   end
 end
