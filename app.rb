@@ -46,9 +46,7 @@ class Server < Sinatra::Base
   end
 
   post '/user/create' do 
-    #params[:username] = params[:username].force_encoding("utf-8")
-    #params[:nickname] = params[:nickname].force_encoding("utf-8")
-    @user = User.add(params) #Controller::User.create(params)
+    @user = User.add(params)
 
     @user.validate
     unless @user.valid? then
@@ -58,6 +56,7 @@ class Server < Sinatra::Base
       @nickname = params[:nickname]
       slim :new_user
     else
+      puts @user[:nickname].encoding
       @user.save
       session[:user] = @user.name
       redirect '/'
