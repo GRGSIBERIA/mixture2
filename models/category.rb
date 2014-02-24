@@ -16,4 +16,8 @@ class Category < Sequel::Model
 
     errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
   end
+
+  def self.find(id)
+    DB[:categories].where(id: id.to_i).first
+  end
 end

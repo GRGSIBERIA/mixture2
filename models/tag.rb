@@ -17,4 +17,8 @@ class Tag < Sequel::Model
 
     errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
   end
+
+  def self.find(id)
+    DB[:tags].where(id: id.to_i).first
+  end
 end

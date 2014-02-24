@@ -11,4 +11,8 @@ class Post < Sequel::Model
     super
 
   end
+
+  def self.find(id)
+    DB[:posts].where(id: id.to_i).first
+  end
 end
