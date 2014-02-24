@@ -6,6 +6,7 @@ Sequel.migration do
       Integer :user_id, :null=>false
       String :file_hash, :size=>255, :null=>false
       String :file_name, :size=>255, :null=>false
+      Integer :file_size, :null=>false
       DateTime :created_at
       DateTime :updated_at
       
