@@ -5,6 +5,7 @@ class Post < Sequel::Model
   one_to_many :vote_tags
   one_to_many :vote_categories
   one_to_many :post_tags
+  one_to_many :thumbnails
 
   def validate
     super
