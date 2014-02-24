@@ -27,7 +27,7 @@ class User < Sequel::Model
     errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
     errors.add(:nickname, 'use the invalid word') if INVALID_WORDS.include?(name)
 
-    password = Crypt.crypt_password(password)
+    password = Crypt.encrypt_password(password)
     email = Crypt.encrypt_email(email)
   end
 

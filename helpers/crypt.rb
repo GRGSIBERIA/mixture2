@@ -3,7 +3,7 @@ require 'base64'
 require "digest/sha2"
 
 module Crypt
-  def crypt_password(password)
+  def encrypt_password(password)
     Digest::SHA256.hexdigest(PASSWORD_SALT + password)
   end
 
