@@ -32,9 +32,8 @@ require './controllers/user.rb'
 
 class Server < Sinatra::Base
   configure :development do
-    encoding = "utf-8"
-
     register Sinatra::Reloader 
+    #encoding = "utf-8"
   end
 
   get '/' do 
@@ -59,6 +58,7 @@ class Server < Sinatra::Base
       @username = params[:user_name]
       @email = params[:email]
       @nickname = params[:nickname]
+      puts "Invalid Parameters!"
       slim :new_user
     else
       #puts @user[:nickname].encoding

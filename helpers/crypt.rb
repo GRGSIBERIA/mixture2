@@ -32,7 +32,7 @@ module Crypt
   end
 
   module_function :make_apikey
-  module_function :crypt_password
+  module_function :encrypt_password
   module_function :encrypt_email
   module_function :decrypt_email
 end
