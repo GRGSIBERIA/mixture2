@@ -56,7 +56,7 @@ class Server < Sinatra::Base
       @nickname = params[:nickname]
       slim :new_user
     else
-      puts @user[:nickname].encoding
+      #puts @user[:nickname].encoding
       @user.save
       session[:user] = @user.name
       redirect '/'
