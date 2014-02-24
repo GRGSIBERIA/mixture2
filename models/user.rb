@@ -39,10 +39,10 @@ class User < Sequel::Model
     DB[:users].where(id: id.to_i).first
   end
 
-  def self.posts(id, page_num=0)
+  def self.posts(user_id, page_num=0)
     ofst = page_num * NUMBER_OF_CONTENTS_PER_PAGE
     DB[:posts]
-      .where(user_id: id.to_i)
+      .where(user_id: user_id.to_i)
       .order(Sequel.desc(:id))
       .offset(ofst)
       .limit(NUMBER_OF_CONTENTS_PER_PAGE)
