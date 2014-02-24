@@ -18,8 +18,7 @@ module Crypt
     enc = OpenSSL::Cipher::Cipher.new("aes-256-cbc")
     enc.encrypt.pkcs5_keyivgen(PASSWORD_SALT)
     pass = enc.update(address) + enc.final
-    Base64::b64encode(pass)
-    address
+    Base64::encode64(pass)
   end
 
   module_function :crypt_password
