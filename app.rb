@@ -53,6 +53,7 @@ class Server < Sinatra::Base
     @user = User.add(params)
 
     @user.validate
+    puts @user.valid?
     unless @user.valid? then
       @errors = @user.errors
       @username = params[:user_name]
