@@ -1,3 +1,4 @@
+#-*- ecnoding: utf-8
 module Verify
   def has_apikey(params)
     key = params[:apikey]
@@ -5,13 +6,13 @@ module Verify
     user = DB[:user].where(name: name).first
     
     if user.nil? then
-      raise UserNotFound, "存在しないユーザです(#{name})"
+      raise UserNotFound, "#{name} is not found."
     end
     
     collate = Crypt.make_apikey(user)
 
     if key != collate then
-      raise InvalidAPIKey, "無効なAPIキーです"
+      raise InvalidAPIKey, "Invalid API Key."
     end
     true
   end
