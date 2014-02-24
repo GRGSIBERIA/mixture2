@@ -16,6 +16,7 @@ require './salt.rb'
 require './helpers/connector.rb'
 require './helpers/crypt.rb'
 require './helpers/validation.rb'
+require './helpers/exception.rb'
 DB = Connector.mysql # Modelを読み込むより先に実行する必要がある
 
 require './models/user.rb'
@@ -26,7 +27,10 @@ require './models/vote_tag.rb'
 require './models/vote_category.rb'
 require './models/post_tag.rb'
 
+require './helpers/verify.rb' # DBを利用するためモデルの後に読み込む
+
 require './controllers/user.rb'
+
 
 
 class Server < Sinatra::Base
