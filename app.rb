@@ -45,21 +45,26 @@ class Server < Sinatra::Base
     slim :new_user
   end
 
+  get '/user/succeed' do 
+    slim :create_user_succeed
+  end
+
   post '/user/create' do 
     @user = User.add(params)
 
     @user.validate
     unless @user.valid? then
       @errors = @user.errors
-      @username = params[:username]
+      @username = params[:user_name]
       @email = params[:email]
       @nickname = params[:nickname]
       slim :new_user
     else
       #puts @user[:nickname].encoding
       @user.save
-      session[:user] = @user.name
-      redirect '/'
+      session[:user_name] = @user.name
+      session[:apikey] = Crypt.make_apikey(@user)
+      redirect '/user/succeed'
     end
   end
 
