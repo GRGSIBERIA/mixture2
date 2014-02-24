@@ -21,6 +21,7 @@ def routing_user
     else
       #puts @user[:nickname].encoding
       @user.save
+      session[:user_id] = @user.id
       session[:user_name] = @user.name
       session[:apikey] = Crypt.make_apikey(@user)
       redirect '/user/succeed'
