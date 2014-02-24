@@ -1,5 +1,5 @@
 #-*- encoding: utf-8
 
-module Exception
-  
-end
+class UserNotFound < StandardError; end
+
+class InvalidAPIKey < StandardError; end
