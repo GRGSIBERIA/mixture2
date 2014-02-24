@@ -20,4 +20,8 @@ class Category < Sequel::Model
   def self.find(id)
     DB[:categories].where(id: id.to_i).first
   end
+
+  def self.tags(category)
+    
+  end
 end
