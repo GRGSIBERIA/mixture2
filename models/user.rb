@@ -11,37 +11,27 @@ class User < Sequel::Model
 
   def validate
     super
-    validates_presence [:name, :email, :password, :nickname]
+    validates_presence [:name, :password, :nickname]
 
     validates_length_range 4..80, :name
     validates_length_range 4..80, :nickname
-    validates_length_range 4..80, :password
-    validates_length_range 6..256,:email
 
     validates_unique :name
-    validates_unique :email
 
     validates_format(/\A\w+\z/, :name)
     validates_format(/\A[\w#{Moji.zen}]+\z/, :nickname)
-    validates_format(%r{^(?:(?:(?:(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+)(?:.(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+))*)|(?:"(?:\[^ ]|[^\"])*")))@(?:(?:(?:(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+)(?:.(?:[a-zA-Z0-9_!#$%&'*+/=?^`{}~|-]+))*)|(?:[(?:\S|[!-Z^-~])*])))$}, :email)
 
     errors.add(:name, 'is the invalid word') if INVALID_WORDS.include?(name)
     errors.add(:nickname, 'is the invalid word') if INVALID_WORDS.include?(name)
-
-    begin
-      password = Crypt.encrypt_password(password)
-      email = Crypt.encrypt_email(email)
-    rescue TypeError
-      # 空の文字列を代入されているパターンなので無視する
-    end
   end
 
   def self.add(params)
     User.new({
       name:     params[:user_name],
       nickname: params[:nickname],
-      password: params[:password],
-      email:    params[:email],
+      password: Crypt.encrypt_password(params[:password]),
+      created_at: Time.now.to_s,
+      updated_at: Time.now.to_s
       })
   end
 end

@@ -29,10 +29,10 @@ require './models/post_tag.rb'
 require './controllers/user.rb'
 
 
-
 class Server < Sinatra::Base
   configure :development do
-    register Sinatra::Reloader 
+    register Sinatra::Reloader
+    enable :sessions
     #encoding = "utf-8"
   end
 
@@ -52,11 +52,9 @@ class Server < Sinatra::Base
     @user = User.add(params)
 
     @user.validate
-    puts @user.valid?
     unless @user.valid? then
       @errors = @user.errors
       @username = params[:user_name]
-      @email = params[:email]
       @nickname = params[:nickname]
       puts "Invalid Parameters!"
       slim :new_user
