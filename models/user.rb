@@ -39,7 +39,7 @@ class User < Sequel::Model
     DB[:users].where(id: id.to_i).first
   end
 
-  def posts(page_num=0)
-    DB[:posts].where(user_id: id)
+  def self.posts(id, page_num=0)
+    DB[:posts].where(user_id: id.to_i)
   end
 end
