@@ -21,6 +21,6 @@ class Post < Sequel::Model
     post_tags = DB[:post_tags]
       .where(post_id: id.to_i)
       .join_table(:inner, DB[:tags], id: :tag_id)
-    # 吐出されるハッシュが不明なので要検証
+    # 吐き出されるハッシュが不明なので要検証
   end
 end

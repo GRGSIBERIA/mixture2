@@ -11,4 +11,8 @@ class Connector
     dbopts[:encoding] = dbconfig[mode]["encoding"]
     Sequel.mysql2(nil, dbopts)
   end
+
+  def self.s3
+    
+  end
 end
