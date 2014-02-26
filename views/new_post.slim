@@ -1,4 +1,18 @@
-p
-  = @policy
-p
-  = @signature
+html
+  head
+    meta charset="UTF-8"
+
+  body
+    form action="https://mixture-posts.s3.amazonaws.com/" method="post" enctype="multipart/form-data"
+      input type="hidden" name="key" value="uploads/${filename}"
+      input type="hidden" name="AWSAccessKeyId" value="#{@access_key}"
+      input type="hidden" name="acl" value="private"
+      input type="hidden" name="success_action_redirect" value="http://localhost:3000/"
+      input type="hidden" name="policy" value="#{@policy}"
+      input type="hidden" name="signature" value="#{@signature}"
+      input type="hidden" name="Content-Type" value="image/jpeg"
+
+      p 
+        | File to upload to S3:
+      input name="file" type="file"
+      input type="submit" value="Upload File to S3"
