@@ -15,6 +15,7 @@ INVALID_WORDS = %w(index home top help about security contact connect support fa
 NUMBER_OF_CONTENTS_PER_PAGE = 20
 NUMBER_OF_WORDS_PER_PAGE = 50
 
+require './aws.rb'
 require './salt.rb'
 require './helpers/connector.rb'
 require './helpers/crypt.rb'
@@ -33,6 +34,7 @@ require './models/post_tag.rb'
 require './helpers/verify.rb' # DBを利用するためモデルの後に読み込む
 
 require './routing/user.rb'
+require './routing/post.rb'
 
 
 class Server < Sinatra::Base
@@ -47,7 +49,7 @@ class Server < Sinatra::Base
   end
   
   routing_user
-
+  routing_post
 end
 
 
