@@ -3,14 +3,14 @@
 def routing_post
   get '/post/new' do 
     policy_document = <<EOS
-{"expiration": "2013-08-17T00:00:00Z",
+{"expiration": "2113-08-17T00:00:00Z",
   "conditions": [
-    {"bucket": "bucket-name"},
+    {"bucket": "mixture-posts"},
     ["starts-with", "$key", "uploads/"],
     {"acl": "private"},
-    {"success_action_redirect": "http://localhost:3000/success.html"},
+    {"success_action_redirect": "http://localhost:3000/"},
     ["starts-with", "$Content-Type", ""],
-    ["content-length-range", 0, 1048576]
+    ["content-length-range", 0, 1073741824]
   ]
 }
 EOS
