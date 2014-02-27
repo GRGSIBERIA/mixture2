@@ -26,8 +26,12 @@ EOS
 
     @access_key = MIXTURE_FREE_ACCESS_KEY
     
-    @file_name = Digest::SHA256.hexdigest(request.ip.to_s + Time.now.to_s)
+    @fname_hash = Digest::SHA256.hexdigest(request.ip.to_s + Time.now.to_s)
 
     slim :new_post
+  end
+
+  get '/post/prepare' do 
+
   end
 end
