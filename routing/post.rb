@@ -30,13 +30,17 @@ def file_name_hash(request)
   Digest::SHA256.hexdigest(request.ip.to_s + Time.now.to_s)
 end
 
+def host_url
+  'http://localhost:3000/'
+end
+
 def routing_post
   get '/post/new' do 
     @policy = policy
     @signature = signature(@policy)
     @access_key = MIXTURE_FREE_ACCESS_KEY
     @fname_hash = file_name_hash(request)
-
+    @host = host_url
     slim :new_post
   end
 
@@ -46,7 +50,8 @@ def routing_post
       policy:     buf_policy,
       signature:  signature(buf_policy),
       access_key: MIXTURE_FREE_ACCESS_KEY,
-      fname_hash: file_name_hash(request)
+      fname_hash: file_name_hash(request),
+      host:       host_url
     }.to_json
     slim :render_simple
   end

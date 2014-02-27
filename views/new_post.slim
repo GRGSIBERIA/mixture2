@@ -2,23 +2,8 @@ html
   head
     meta charset="UTF-8"
     script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"
+    script src="/js/dropzone.js"
     script src="/js/upload.js"
 
-  body onLoad="upload('#{@access_key}', '#{@policy}', '#{@signature}', '#{@fname_hash}')"
+  body onLoad="show_upload_form('#{@access_key}', '#{@policy}', '#{@signature}', '#{@fname_hash}', '#{@host}')"
     #upload-post
-
-    form action="https://mixture-posts.s3.amazonaws.com/" method="post" enctype="multipart/form-data"
-      /! keyでバケットに入れるディレクトリを指定
-      input type="hidden" name="key" value="uploads/${filename}"
-      input type="hidden" name="AWSAccessKeyId" value="#{@access_key}"
-      /! aclはアクセスコントロールのこと
-      input type="hidden" name="acl" value="public-read"
-      input type="hidden" name="success_action_redirect" value="http://localhost:3000/"
-      input type="hidden" name="policy" value="#{@policy}"
-      input type="hidden" name="signature" value="#{@signature}"
-      input type="hidden" name="Content-Type" value="image/jpeg"
-
-      p 
-        | File to upload to S3:
-      input name="file" type="file"
-      input type="submit" value="Upload File to S3"
