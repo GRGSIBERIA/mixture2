@@ -25,7 +25,9 @@ EOS
         ).gsub("\n","")
 
     @access_key = MIXTURE_FREE_ACCESS_KEY
-     
+    
+    @file_name = Digest::SHA256.hex_digest(request.ip.to_s + Time.now.to_s)
+
     slim :new_post
   end
 end
