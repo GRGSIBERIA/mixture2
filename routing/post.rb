@@ -55,4 +55,10 @@ def routing_post
     }.to_json
     slim :render_simple
   end
+
+  get '/post/succeeded/:fname_hash/:file_name/:user_hash' do 
+    fname_hash = params[:fname_hash]
+    file_name = params[:file_name]
+    user_hash = params[:user_hash]
+  end
 end
