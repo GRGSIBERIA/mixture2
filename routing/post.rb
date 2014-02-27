@@ -17,35 +17,36 @@ EOS
   Base64.encode64(policy_document).gsub("\n","")
 end
 
-def signature
+def signature(policy)
   aws_secret_key = MIXTURE_FREE_SECRET_KEY
   Base64.encode64(
     OpenSSL::HMAC.digest(
       OpenSSL::Digest::Digest.new('sha1'),
-      aws_secret_key, @policy)
+      aws_secret_key, policy)
     ).gsub("\n","")
 end
 
-def file_name_hash
+def file_name_hash(request)
   Digest::SHA256.hexdigest(request.ip.to_s + Time.now.to_s)
 end
 
 def routing_post
   get '/post/new' do 
     @policy = policy
-    @signature = signature   
+    @signature = signature(@policy)
     @access_key = MIXTURE_FREE_ACCESS_KEY
-    @fname_hash = file_name_hash
+    @fname_hash = file_name_hash(request)
 
     slim :new_post
   end
 
   get '/post/prepare' do 
+    buf_policy = policy
     retval = {
-      policy: policy,
-      signature: signature,
+      policy: buf_policy,
+      signature: signature(buf_policy),
       access_key: MIXTURE_FREE_ACCESS_KEY,
-      fname_hash: file_name_hash
+      fname_hash: file_name_hash(request)
     }
     slim :for_json
   end
