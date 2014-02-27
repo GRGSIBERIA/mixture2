@@ -49,20 +49,6 @@ function getContentType(extension) {
   return content_type;
 }
 
-function createAjaxForm(fname_hash, extension, content_type) {
-  $('form#upload-form').append('<input type="hidden" name="key" value="' + "uploads/" + fname_hash + "." + extension + '">')
-  $('form#upload-form').append('<input type="hidden" name="Content-Type" value="' + content_type + '">')
-  //var form = $('form#upload-form').get()[0];
-  //return new FormData(form);
-}
-
-function successCall(host) {
-  $.ajax({
-    type: "get",
-    url: host + "post/succeeded/" + fname_hash + "/" + file_name
-  });
-}
-
 function upload(fname_hash) {
   alert("start");
   var flist = document.getElementById("upload-button").files;
@@ -72,18 +58,4 @@ function upload(fname_hash) {
   document.upload_form["key"].value = "uploads/" + fname_hash + "." + extension
   document.upload_form["Content-Type"].value = content_type
   document.upload_form.submit();
-
-  /*
-  $.ajax({
-    method: "post",
-    url:  "https://mixture-posts.s3.amazonaws.com/",
-    contentType: true,
-    processData: false,
-    data: form_data,
-    error: function(request, error) {
-      console.log(arguments);
-      $("div#upload-post").append("<strong>" + error + "</strong>");
-    }
-  });
-*/
 }
