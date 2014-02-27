@@ -42,12 +42,12 @@ def routing_post
 
   get '/post/prepare' do 
     buf_policy = policy
-    retval = {
-      policy: buf_policy,
-      signature: signature(buf_policy),
+    @render = {
+      policy:     buf_policy,
+      signature:  signature(buf_policy),
       access_key: MIXTURE_FREE_ACCESS_KEY,
       fname_hash: file_name_hash(request)
-    }
-    slim :for_json
+    }.to_json
+    slim :render_simple
   end
 end
