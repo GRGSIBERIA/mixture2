@@ -1,12 +1,14 @@
 function show_upload_form(access_key, policy, signature, fname_hash, host) {
   $("div#upload-post").append(
-    "<form id='upload-form' method='post' action='https://mixture-posts.s3.amazonaws.com/' enctype='multipart/form-data'>" + 
-    "<input type='file' name='file' id='upload-button' onchange='upload(\"" + fname_hash +"\")'>" + 
+    "<form name='upload_form' id='upload-form' method='post' action='https://mixture-posts.s3.amazonaws.com/' enctype='multipart/form-data'>" + 
+    '<input type="hidden" name="key" value="uploads/${filename}">' + 
     '<input type="hidden" name="AWSAccessKeyId" value="' + access_key + '">' + 
     '<input type="hidden" name="acl" value="public-read">' + 
     '<input type="hidden" name="success_action_redirect" value="' + host + '">' + 
     '<input type="hidden" name="policy" value="' + policy + '">' + 
     '<input type="hidden" name="signature" value="' + signature + '">' + 
+    '<input type="hidden" name="Content-Type" value="image/jpg">' +
+    "<input type='file' name='file' id='upload-button' onchange='upload(\"" + fname_hash +"\")'>" + 
     "</form>");
 }
 
@@ -50,8 +52,8 @@ function getContentType(extension) {
 function createAjaxForm(fname_hash, extension, content_type) {
   $('form#upload-form').append('<input type="hidden" name="key" value="' + "uploads/" + fname_hash + "." + extension + '">')
   $('form#upload-form').append('<input type="hidden" name="Content-Type" value="' + content_type + '">')
-  var form = $('form#upload-form').get()[0];
-  return new FormData(form);
+  //var form = $('form#upload-form').get()[0];
+  //return new FormData(form);
 }
 
 function successCall(host) {
@@ -67,13 +69,21 @@ function upload(fname_hash) {
   var file_name = flist[0].name;
   var extension = getExtention(file_name).toLowerCase();
   var content_type = getContentType(extension);
-  var form_data = createAjaxForm(fname_hash, extension, content_type);
+  document.upload_form["key"].value = "uploads/" + fname_hash + "." + extension
+  document.upload_form["Content-Type"].value = content_type
+  document.upload_form.submit();
 
+  /*
   $.ajax({
     method: "post",
     url:  "https://mixture-posts.s3.amazonaws.com/",
-    contentType: false,
+    contentType: true,
     processData: false,
-    data: form_data
+    data: form_data,
+    error: function(request, error) {
+      console.log(arguments);
+      $("div#upload-post").append("<strong>" + error + "</strong>");
+    }
   });
+*/
 }

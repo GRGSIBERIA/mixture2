@@ -6,7 +6,7 @@ def policy
   "conditions": [
     {"bucket": "mixture-posts"},
     ["starts-with", "$key", "uploads/"],
-    {"acl": "private"},
+    {"acl": "public-read"},
     {"success_action_redirect": "http://localhost:3000/"},
     ["starts-with", "$Content-Type", ""],
     ["content-length-range", 0, 1073741824]
