@@ -1,9 +1,12 @@
 html
   head
     meta charset="UTF-8"
+    script src="js/jquery-2.1.0.min.js"
     script src="js/upload.js"
 
   body
+    #upload
+
     form action="https://mixture-posts.s3.amazonaws.com/" method="post" enctype="multipart/form-data"
       /! keyでバケットに入れるディレクトリを指定
       input type="hidden" name="key" value="uploads/${filename}"
