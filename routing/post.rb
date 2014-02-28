@@ -1,14 +1,14 @@
 #-*- encoding: utf-8
 
-def policy
+def policy(user_name)
   # 3時間以内にアップロード
   policy_document = <<EOS
-{"expiration": #{(Time.now + 60 * 60 * 3).to_s},
+{"expiration": "2113-08-17T00:00:00Z",
   "conditions": [
     {"bucket": "mixture-posts"},
     ["starts-with", "$key", "uploads/"],
     {"acl": "public-read"},
-    {"success_action_redirect": "http://localhost:3000/"},
+    {"success_action_redirect": "http://localhost:3000/post/done/#{user_name}"},
     ["starts-with", "$Content-Type", ""],
     ["content-length-range", 0, 1073741824]
   ]
@@ -37,37 +37,37 @@ end
 
 
 def routing_post
-  get '/post/done/:file_hash' do 
-    file_hash = params[:file_hash]
-    pp = PostPush.find(file_hash)
-    if pp.nil? then
-      # なんか失敗してるっぽい
-      halt 400, 'file hash is invalid (#{file_hash}).'
-    else
-      # アップロード成功しました
-      pp.delete
-      @render = "upload succeeded"
-      slim :render_simple
-    end
+  get '/post/done/:user_id' do 
+    file_hash = File.basename(params[:key], ".*")
+    extension = File.extname(params[:key])
+    user_id = params[:user_id].to_i
+
+    Post.create(user_id, file_hash, extension)
   end
 
-  get '/post/new/:user_name' do 
-    @policy = policy
-    @signature = signature(@policy)
+  get '/post/new/:user_id' do 
     @access_key = MIXTURE_FREE_ACCESS_KEY
     @fname_hash = file_name_hash(request)
+    @policy = policy(params[:user_id])
+    @signature = signature(@policy)
     @redirect = host_url
+
+    @user_id = params[:user_id]
+    if User.find(@user_id).nil? then
+      halt 400, "BadRequest(user_id)"
+    end
+
     slim :new_post
   end
 
-  get '/post/prepare/:user_name' do 
-    buf_policy = policy
-    user = User.find(params[:user_name])
+  get '/post/prepare/:user_id' do 
+    user = User.find(params[:user_id])
     @render = ""
     if user.nil? then
-      @render = "BadRequest(user_name)"
+      halt 400, "BadRequest(user_id)"
     else
       file_hash = file_name_hash(request)
+      buf_policy = policy(user.id)
       PostPush.push(user.id, file_hash)  # 自動的に保存
       @render = {
         policy:     buf_policy,

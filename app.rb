@@ -31,6 +31,7 @@ require './models/category.rb'
 require './models/vote_tag.rb'
 require './models/vote_category.rb'
 require './models/post_tag.rb'
+require './models/post_push.rb'
 
 require './helpers/verify.rb' # DBを利用するためモデルの後に読み込む
 

@@ -12,6 +12,10 @@ class Post < Sequel::Model
 
   end
 
+  def self.create(user_id, file_hash, extension)
+    post = Post.new(user_id: user_id, file_hash: file_hash, extension: extension)
+  end
+
   def self.find(id)
     DB[:posts].where(id: id.to_i).first
   end
