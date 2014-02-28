@@ -37,9 +37,18 @@ end
 
 
 def routing_post
-  get '/post/done/:fname_hash' do 
-    fname_hash = params[:fname_hash]
-
+  get '/post/done/:file_hash' do 
+    file_hash = params[:file_hash]
+    pp = PostPush.find(file_hash)
+    if pp.nil? then
+      # なんか失敗してるっぽい
+      halt 400, 'file hash is invalid (#{file_hash}).'
+    else
+      # アップロード成功しました
+      pp.delete
+      @render = "upload succeeded"
+      slim :render_simple
+    end
   end
 
   get '/post/new/:user_name' do 
@@ -58,12 +67,13 @@ def routing_post
     if user.nil? then
       @render = "BadRequest(user_name)"
     else
-      
+      file_hash = file_name_hash(request)
+      PostPush.push(user.id, file_hash)  # 自動的に保存
       @render = {
         policy:     buf_policy,
         signature:  signature(buf_policy),
         access_key: MIXTURE_FREE_ACCESS_KEY,
-        fname_hash: file_name_hash(request),
+        fname_hash: file_hash,
         host:       host_url,
       }.to_json
     end
