@@ -1,8 +1,9 @@
 #-*- encoding: utf-8
 
 def policy
+  # 3時間以内にアップロード
   policy_document = <<EOS
-{"expiration": "2113-08-17T00:00:00Z",
+{"expiration": #{(Time.now + 60 * 60 * 3).to_s},
   "conditions": [
     {"bucket": "mixture-posts"},
     ["starts-with", "$key", "uploads/"],
