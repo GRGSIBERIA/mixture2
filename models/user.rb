@@ -39,7 +39,7 @@ class User < Sequel::Model
   def self.find(id)
     case id 
     when String
-      if id ~= /\A\d+\z/ then
+      if id =~ /\A\d+\z/ then
         return DB[:users].where(id: id.to_i).first
       else
         return DB[:users].where(name: id).first
