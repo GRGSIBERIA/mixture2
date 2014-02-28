@@ -218,3 +218,4 @@ config/database.yml
 salt.rb
 aws.rb
 *.bat
+*.sql
