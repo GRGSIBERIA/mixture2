@@ -68,7 +68,6 @@ def routing_post
     else
       file_hash = file_name_hash(request)
       buf_policy = policy(user.id)
-      PostPush.push(user.id, file_hash)  # 自動的に保存
       @render = {
         policy:     buf_policy,
         signature:  signature(buf_policy),
