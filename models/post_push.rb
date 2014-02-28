@@ -1,7 +1,8 @@
 #-*- encoding: utf-8
 
 # 投稿準備のリクエストが来た時に作成される
-class PostPush
+class PostPush < Sequel::Model
+  plugin :validation_helpers
   many_to_one :users
 
   def self.push(user_id, file_hash)
