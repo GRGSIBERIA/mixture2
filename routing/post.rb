@@ -37,10 +37,9 @@ end
 
 
 def routing_post
-  get '/post/done/:fname_hash/:user_name/:file_name' do 
+  get '/post/done/:fname_hash' do 
     fname_hash = params[:fname_hash]
-    file_name = params[:file_name]
-    user_name = params[:user_name]
+
   end
 
   get '/post/new/:user_name' do 
@@ -59,6 +58,7 @@ def routing_post
     if user.nil? then
       @render = "BadRequest(user_name)"
     else
+      
       @render = {
         policy:     buf_policy,
         signature:  signature(buf_policy),
