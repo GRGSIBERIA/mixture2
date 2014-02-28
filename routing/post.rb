@@ -35,31 +35,38 @@ def host_url
   'http://localhost:3000/'
 end
 
+
 def routing_post
-  get '/post/new' do 
+  get '/post/done/:fname_hash/:user_name/:file_name' do 
+    fname_hash = params[:fname_hash]
+    file_name = params[:file_name]
+    user_name = params[:user_name]
+  end
+
+  get '/post/new/:user_name' do 
     @policy = policy
     @signature = signature(@policy)
     @access_key = MIXTURE_FREE_ACCESS_KEY
     @fname_hash = file_name_hash(request)
-    @host = host_url
+    @redirect = host_url
     slim :new_post
   end
 
-  get '/post/prepare' do 
+  get '/post/prepare/:user_name' do 
     buf_policy = policy
-    @render = {
-      policy:     buf_policy,
-      signature:  signature(buf_policy),
-      access_key: MIXTURE_FREE_ACCESS_KEY,
-      fname_hash: file_name_hash(request),
-      host:       host_url
-    }.to_json
+    user = User.find(params[:user_name])
+    @render = ""
+    if user.nil? then
+      @render = "BadRequest(user_name)"
+    else
+      @render = {
+        policy:     buf_policy,
+        signature:  signature(buf_policy),
+        access_key: MIXTURE_FREE_ACCESS_KEY,
+        fname_hash: file_name_hash(request),
+        host:       host_url,
+      }.to_json
+    end
     slim :render_simple
-  end
-
-  get '/post/succeeded/:fname_hash/:file_name/:user_hash' do 
-    fname_hash = params[:fname_hash]
-    file_name = params[:file_name]
-    user_hash = params[:user_hash]
   end
 end
