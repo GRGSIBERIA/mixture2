@@ -74,7 +74,7 @@ def routing_post
         signature:  signature(buf_policy),
         access_key: MIXTURE_FREE_ACCESS_KEY,
         fname_hash: file_hash,
-        host:       host_url,
+        host:       host_url
       }.to_json
     end
     slim :render_simple
