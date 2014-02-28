@@ -36,7 +36,16 @@ class User < Sequel::Model
   end
 
   def self.find(id)
-    DB[:users].where(id: id.to_i).first
+    case id 
+    when String
+      if id ~= /\A\d+\z/ then
+        return DB[:users].where(id: id.to_i).first
+      else
+        return DB[:users].where(name: id).first
+      end
+    when Integer
+      return DB[:users].where(id: id).first
+    end
   end
 
   def self.posts(user_id, page_num=0)
