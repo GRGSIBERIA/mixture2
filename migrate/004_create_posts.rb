@@ -4,8 +4,7 @@ Sequel.migration do
     create_table(:posts, :ignore_index_errors=>true) do
       primary_key :id
       String :file_hash, :size=>255, :null=>false
-      String :file_name, :size=>255, :null=>false
-      Integer :file_size, :null=>false
+      String :extension, :size=>12, :null=>false
       DateTime :created_at
       DateTime :updated_at
       
