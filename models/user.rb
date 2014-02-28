@@ -8,6 +8,7 @@ class User < Sequel::Model
   one_to_many :posts
   one_to_many :vote_tags
   one_to_many :vote_categories
+  one_to_many :post_pushes
 
   def validate
     super
