@@ -4,8 +4,12 @@
 class PostPush
   many_to_one :users
 
-  def self.add(user_id, file_hash)
+  def self.push(user_id, file_hash)
     pp = PostPush.new(user_id: user_id, file_hash: file_hash)
     pp.save
+  end
+
+  def self.find(file_hash)
+    PostPush.where(file_hash: file_hash).first
   end
 end
