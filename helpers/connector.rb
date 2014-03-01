@@ -16,3 +16,30 @@ class Connector
     
   end
 end
+
+def s3_policy(redirect_url)
+  # 3時間以内にアップロード
+  policy_document = <<EOS
+{"expiration": "2113-08-17T00:00:00Z",
+  "conditions": [
+    {"bucket": "mixture-posts"},
+    ["starts-with", "$key", "uploads/"],
+    {"acl": "public-read"},
+    {"success_action_redirect": "#{redirect_url}"},
+    ["starts-with", "$Content-Type", ""],
+    ["content-length-range", 0, 1073741824]
+  ]
+}
+EOS
+ 
+  Base64.encode64(policy_document).gsub("\n","")
+end
+
+def s3_signature(policy)
+  aws_secret_key = MIXTURE_FREE_SECRET_KEY
+  Base64.encode64(
+    OpenSSL::HMAC.digest(
+      OpenSSL::Digest::Digest.new('sha1'),
+      aws_secret_key, policy)
+    ).gsub("\n","")
+end
