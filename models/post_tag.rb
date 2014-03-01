@@ -20,7 +20,7 @@ class PostTag < Sequel::Model
   end
 
   def self.unvote(post_tag_id)
-    ptag = PostTag.where(id: post_tag_id.to_i).first
+    ptag = DB[:post_tags].where(id: post_tag_id.to_i).first
     if ptag.nil? then 
       halt 400, "Cannot find post_tag_id(#{post_tag_id})."
     end
