@@ -13,11 +13,7 @@ def routing_user
 
     @user.validate
     unless @user.valid? then
-      @errors = @user.errors
-      @username = params[:user_name]
-      @nickname = params[:nickname]
-      puts "Invalid Parameters!"
-      slim :new_user
+      halt 400, "Invalid Parameters!"
     else
       #puts @user[:nickname].encoding
       @user.save
