@@ -1,7 +1,6 @@
 #-*- encoding: utf-8
 class Post < Sequel::Model
   plugin :validation_helpers
-  plugin :json_serializer
   many_to_one :users
   one_to_many :vote_tags
   one_to_many :vote_categories
@@ -14,7 +13,13 @@ class Post < Sequel::Model
   end
 
   def self.create(user_id, file_hash, extension)
-    post = Post.new(user_id: user_id, file_hash: file_hash, extension: extension)
+    post = Post.new(
+      user_id: user_id, 
+      file_hash: file_hash, 
+      extension: extension,
+      created_at: Time.now.to_s,
+      updated_at: Time.now.to_s)
+    post.save
   end
 
   def self.find(id)

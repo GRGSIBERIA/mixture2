@@ -33,6 +33,7 @@ require './models/vote_category.rb'
 require './models/post_tag.rb'
 
 require './helpers/verify.rb' # DBを利用するためモデルの後に読み込む
+Sequel::Model.plugin :json_serializer
 
 require './routing/user.rb'
 require './routing/post.rb'

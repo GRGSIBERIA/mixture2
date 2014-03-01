@@ -43,6 +43,7 @@ def routing_post
     user_id = params[:user_id].to_i
 
     Post.create(user_id, file_hash, extension)
+    "succeeded #{file_hash}"
   end
 
   get '/post/new/:user_id' do 
@@ -80,6 +81,7 @@ def routing_post
   end
 
   get '/post/listing/:user_id' do 
-    @users = User.posts(params[:user_id])
+    @posts = User.posts(params[:user_id])
+    slim :listing_posts
   end
 end
