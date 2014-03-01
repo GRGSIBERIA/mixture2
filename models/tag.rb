@@ -22,16 +22,35 @@ class Tag < Sequel::Model
     case tag 
     when String
       if tag =~ /\A\d+\z/ then
-        DB[:tags].where(id: tag.to_i).first  
+        buf = DB[:tags].where(id: tag.to_i).first  
+        if buf.nil? then
+          halt 400, "Do not found tag_id."
+        end
       else
         DB[:tags].where(name: tag).first
       end
     when Integer
-      DB[:tags].where(id: tag).first
+      buf = DB[:tags].where(id: tag).first
+      if buf.nil? then
+        halt 400, "Do not found tag_id."
+      end
     end
+  end
+
+  def self.find_or_create(tag_name)
+    if tag_name.class == String then
+      unless tag =~ /\A\d+\z/ then
+        Tag.new(name: tag_name, created_at: Time.now.to_s)
+      else
+        halt 400, "tag_name is not a tag name"
+      end
+    else
+      halt 400, "tag_name is not a tag name."
   end
 
   def self.vote(user_id, post_id, tag_name)
     tag = Tag.find(tag_name)
+    post = Post.find(post_id)
+    user = User.find(user_id)
   end
 end
