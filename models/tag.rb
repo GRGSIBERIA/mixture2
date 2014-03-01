@@ -16,6 +16,7 @@ class Tag < Sequel::Model
     validates_format(/\A\w+\z/, :name)
 
     errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
+    errors.add(:name, 'use only numerical') if name =~ /\A\d+\z/
   end
 
   def self.find(tag)
@@ -24,7 +25,7 @@ class Tag < Sequel::Model
       if tag =~ /\A\d+\z/ then
         buf = DB[:tags].where(id: tag.to_i).first  
         if buf.nil? then
-          halt 400, "Do not found tag_id."
+          halt 400, "Do not found tag_id(#{tag})."
         end
       else
         DB[:tags].where(name: tag).first
@@ -32,7 +33,7 @@ class Tag < Sequel::Model
     when Integer
       buf = DB[:tags].where(id: tag).first
       if buf.nil? then
-        halt 400, "Do not found tag_id."
+        halt 400, "Do not found tag_id(#{tag})."
       end
     end
   end
@@ -47,23 +48,30 @@ class Tag < Sequel::Model
     tag_inst.update(count: cnt)
   end
 
-  def self.find_or_create(tag_name)
-    if tag_name.class == String then
-      unless tag =~ /\A\d+\z/ then
-        tag = Tag.new(name: tag_name, created_at: Time.now.to_s, category_id: 1)
-        tag.save
-        return tag
-      else
-        halt 400, "tag_name is not a tag name"
-      end
+  def self.create(tag_name)
+    tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
+    tag.validate
+    unless tag.valid? then
+      halt 400, "Cannot created a tag name(#{tag_name})."
     else
-      halt 400, "tag_name is not a tag name."
+      tag.save
+    end
+    tag
+  end
+
+  def self.find_or_create(tag_name)
+    tag = Tag.find(tag_name)
+    if tag.nil? then
+      Tag.create(tag_name)
+    else
+      return tag
     end
   end
 
   def self.vote(user_id, post_id, tag_name)
-    tag = Tag.find(tag_name)
+    tag = Tag.find_or_create(tag_name)
     post = Post.find(post_id)
     user = User.find(user_id)
+    
   end
 end
