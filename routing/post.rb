@@ -13,6 +13,14 @@ def redirect_url(host_url, user_name)
 end
 
 def routing_post
+  get '/post/listing/new/:page_num' do 
+    Post.order_by_new(params[:page_num]).to_json
+  end
+
+  get '/post/listing/old/:page_num' do 
+    Post.order_by_old(params[:page_num]).to_json
+  end
+  
   get '/post/done/:user_id' do 
     file_hash = File.basename(params[:key], ".*")
     extension = File.extname(params[:key])
@@ -60,11 +68,9 @@ def routing_post
     User.posts(params[:user_id], params[:page_num]).to_json
   end
 
-  get '/post/listing/new/:page_num' do 
-    Post.order_by_new(params[:page_num]).to_json
-  end
+  get '/post/listing/:user_id' do 
+    User.posts(params[:user_id]).to_json
+  end  
 
-  get '/post/listing/old/:page_num' do 
-    Post.order_by_old(params[:page_num]).to_json
-  end
+  
 end
