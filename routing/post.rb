@@ -59,4 +59,12 @@ def routing_post
   get '/post/listing/:user_id' do 
     User.posts(params[:user_id]).to_json
   end
+
+  get '/post/listing/new/:page_num' do 
+    Post.order_by_new(params[:page_num])
+  end
+
+  get '/post/listing/old/:page_num' do 
+    Post.order_by_old(params[:page_num])
+  end
 end
