@@ -1,6 +1,7 @@
 #-*- encoding: utf-8
 class Post < Sequel::Model
   plugin :validation_helpers
+  plugin :json_serializer
   many_to_one :users
   one_to_many :vote_tags
   one_to_many :vote_categories

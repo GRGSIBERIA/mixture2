@@ -1,0 +1,12 @@
+table
+  tr
+    th Id
+    th Created At
+    th Extension
+    th File Hash
+  - for post in @posts
+    tr
+      th #{post.id}
+      th #{post.created_at}
+      th #{post.extension}
+      th #{post.file_hash}
