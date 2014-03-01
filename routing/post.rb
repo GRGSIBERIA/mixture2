@@ -81,7 +81,6 @@ def routing_post
   end
 
   get '/post/listing/:user_id' do 
-    @posts = User.posts(params[:user_id])
-    slim :listing_posts
+    posts = User.posts(params[:user_id]).to_json
   end
 end

@@ -16,6 +16,13 @@ INVALID_WORDS = %w(index home top help about security contact connect support fa
 NUMBER_OF_CONTENTS_PER_PAGE = 20
 NUMBER_OF_WORDS_PER_PAGE = 50
 
+# SequelでJSON出力ができるようになる
+class Sequel::Dataset
+  def to_json
+    naked.all.to_json
+  end
+end
+
 require './aws.rb'
 require './salt.rb'
 require './helpers/connector.rb'
