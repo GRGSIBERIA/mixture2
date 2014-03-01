@@ -6,7 +6,6 @@ Sequel.migration do
       String :name, :size=>255, :null=>false
       Integer :count, :default=>0, :null=>false
       DateTime :created_at
-      DateTime :updated_at
       
       foreign_key :category_id, :categories, null: false
       index [:category_id], :name=>:index_tags_on_category_id

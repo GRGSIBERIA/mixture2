@@ -37,15 +37,28 @@ class Tag < Sequel::Model
     end
   end
 
+  def self.countup(tag_inst)
+    cnt = tag_inst.count + 1
+    tag_inst.update(count: cnt)
+  end
+
+  def self.countdown(tag_inst)
+    cnt = tag_inst.count - 1
+    tag_inst.update(count: cnt)
+  end
+
   def self.find_or_create(tag_name)
     if tag_name.class == String then
       unless tag =~ /\A\d+\z/ then
-        Tag.new(name: tag_name, created_at: Time.now.to_s)
+        tag = Tag.new(name: tag_name, created_at: Time.now.to_s, category_id: 1)
+        tag.save
+        return tag
       else
         halt 400, "tag_name is not a tag name"
       end
     else
       halt 400, "tag_name is not a tag name."
+    end
   end
 
   def self.vote(user_id, post_id, tag_name)
