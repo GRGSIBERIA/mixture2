@@ -28,7 +28,7 @@ class Post < Sequel::Model
 
   def self.order_by_old(page_num=0)
     page_num = params[:page_num].to_i * NUMBER_OF_CONTENTS_PER_PAGE
-    Post.select(:id, :file_hash, :created_at)
+    Post.select(:id, :file_hash, :extension, :created_at, :updated_at)
       .order(Sequel.asc(:id))
       .offset(page_num)
       .limit(NUMBER_OF_CONTENTS_PER_PAGE)
@@ -36,8 +36,8 @@ class Post < Sequel::Model
 
   def self.order_by_new(page_num=0)
     page_num = params[:page_num].to_i * NUMBER_OF_CONTENTS_PER_PAGE
-    Post.select(:id, :file_hash, :created_at)
-      .order(Sequel.asc(:id))
+    Post.select(:id, :file_hash, :extension, :created_at, :updated_at)
+      .order(Sequel.desc(:id))
       .offset(page_num)
       .limit(NUMBER_OF_CONTENTS_PER_PAGE)
   end

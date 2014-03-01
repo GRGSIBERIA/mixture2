@@ -61,10 +61,10 @@ def routing_post
   end
 
   get '/post/listing/new/:page_num' do 
-    Post.order_by_new(params[:page_num])
+    Post.order_by_new(params[:page_num]).to_json
   end
 
   get '/post/listing/old/:page_num' do 
-    Post.order_by_old(params[:page_num])
+    Post.order_by_old(params[:page_num]).to_json
   end
 end

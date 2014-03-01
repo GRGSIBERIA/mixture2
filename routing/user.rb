@@ -24,9 +24,12 @@ def routing_user
     end
   end
 
-  get '/user/list' do 
-    @users = DB[:users].all
-    slim :user_list
+  get '/user/list/new/:page_num' do 
+    User.order_by_new(params[:page_num]).to_json
+  end
+
+  get '/user/list/old/:page_num' do 
+    User.order_by_old(params[:page_num]).to_json
   end
 
   get '/user/:id' do 

@@ -49,6 +49,20 @@ class User < Sequel::Model
     end
   end
 
+  def self.order_by_new(page_num)
+    page = params[:page_num].to_i * 50
+    DB[:users].select(:id, :name, :nickname, :created_at)
+      .order(Sequel.desc(:id))
+      .offset(page).limit(50)
+  end
+
+  def self.order_by_old(page_num)
+    page = params[:page_num].to_i * 50
+    DB[:users].select(:id, :name, :nickname, :created_at)
+      .order(Sequel.asc(:id))
+      .offset(page).limit(50)
+  end
+
   def self.posts(user_id, page_num=0)
     ofst = page_num * NUMBER_OF_CONTENTS_PER_PAGE
     DB[:posts]
