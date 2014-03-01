@@ -1,6 +1,6 @@
 #-*- encoding: utf-8
 
-def policy(user_name)
+def policy(host_url, user_name)
   # 3時間以内にアップロード
   policy_document = <<EOS
 {"expiration": "2113-08-17T00:00:00Z",
@@ -8,7 +8,7 @@ def policy(user_name)
     {"bucket": "mixture-posts"},
     ["starts-with", "$key", "uploads/"],
     {"acl": "public-read"},
-    {"success_action_redirect": "http://localhost:3000/post/done/#{user_name}"},
+    {"success_action_redirect": "#{host_url}/post/done/#{user_name}"},
     ["starts-with", "$Content-Type", ""],
     ["content-length-range", 0, 1073741824]
   ]
@@ -32,7 +32,7 @@ def file_name_hash(request)
 end
 
 def host_url
-  'http://localhost:3000/'
+  'http://localhost:3000'
 end
 
 
@@ -48,7 +48,7 @@ def routing_post
   get '/post/new/:user_id' do 
     @access_key = MIXTURE_FREE_ACCESS_KEY
     @fname_hash = file_name_hash(request)
-    @policy = policy(params[:user_id])
+    @policy = policy(host_url, params[:user_id])
     @signature = signature(@policy)
     @redirect = host_url
 
@@ -67,7 +67,7 @@ def routing_post
       halt 400, "BadRequest(user_id)"
     else
       file_hash = file_name_hash(request)
-      buf_policy = policy(user.id)
+      buf_policy = policy(host_url, user.id)
       @render = {
         policy:     buf_policy,
         signature:  signature(buf_policy),
@@ -77,5 +77,9 @@ def routing_post
       }.to_json
     end
     slim :render_simple
+  end
+
+  get '/post/listing/:user_id' do 
+    @users = User.posts(params[:user_id])
   end
 end
