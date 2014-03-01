@@ -68,10 +68,23 @@ class Tag < Sequel::Model
     end
   end
 
+  def self.to_i(inst)
+    case inst
+    when String
+      if inst =~ /\A\d+\z/ then
+        return inst.to_i
+      end
+    when Integer
+      return inst
+    end
+    nil
+  end
+
   def self.vote(user_id, post_id, tag_name)
     tag = Tag.find_or_create(tag_name)
-    post = Post.find(post_id)
-    user = User.find(user_id)
+    user_id = Tag.to_i(user_id)
+    post_id = Tag.to_i(post_id)
     
+    PostTag.vote(user_id, post_id, tag.id)
   end
 end
