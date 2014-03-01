@@ -26,6 +26,22 @@ class Post < Sequel::Model
     DB[:posts].where(id: id.to_i).first
   end
 
+  def self.order_by_old(page_num=0)
+    page_num = params[:page_num].to_i * NUMBER_OF_CONTENTS_PER_PAGE
+    Post.select(:id, :file_hash, :created_at)
+      .order(Sequel.asc(:id))
+      .offset(page_num)
+      .limit(NUMBER_OF_CONTENTS_PER_PAGE)
+  end
+
+  def self.order_by_new(page_num=0)
+    page_num = params[:page_num].to_i * NUMBER_OF_CONTENTS_PER_PAGE
+    Post.select(:id, :file_hash, :created_at)
+      .order(Sequel.asc(:id))
+      .offset(page_num)
+      .limit(NUMBER_OF_CONTENTS_PER_PAGE)
+  end
+
   def self.tags(id, page_num=0)
     # これで動くか全くわからない, 要テスト
     post_tags = DB[:post_tags]
