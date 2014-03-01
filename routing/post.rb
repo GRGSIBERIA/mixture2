@@ -56,8 +56,8 @@ def routing_post
     slim :render_simple
   end
 
-  get '/post/listing/:user_id' do 
-    User.posts(params[:user_id]).to_json
+  get '/post/listing/:user_id/:page_num' do 
+    User.posts(params[:user_id], params[:page_num]).to_json
   end
 
   get '/post/listing/new/:page_num' do 
