@@ -85,6 +85,6 @@ class Tag < Sequel::Model
     user_id = Tag.to_i(user_id)
     post_id = Tag.to_i(post_id)
     
-    PostTag.vote(user_id, post_id, tag.id)
+    PostTag.vote(post_id, tag.id)
   end
 end
