@@ -26,20 +26,21 @@ class Post < Sequel::Model
     DB[:posts].where(id: id.to_i).first
   end
 
-  def self.order_by_old(page_num=0)
-    page_num = params[:page_num].to_i * NUMBER_OF_CONTENTS_PER_PAGE
-    Post.select(:id, :file_hash, :extension, :created_at, :updated_at)
-      .order(Sequel.asc(:id))
-      .offset(page_num)
+  def self.call_order_query(page_num, order_by)
+    offset = page_num.to_i * NUMBER_OF_CONTENTS_PER_PAGE
+    DB[:posts]
+      .select(:id, :file_hash, :extension, :created_at, :updated_at)
+      .order()
+      .offset(offset)
       .limit(NUMBER_OF_CONTENTS_PER_PAGE)
   end
 
+  def self.order_by_old(page_num=0)
+    Post.call_order_query(page_num, Sequel.asc(:id))
+  end
+
   def self.order_by_new(page_num=0)
-    page_num = params[:page_num].to_i * NUMBER_OF_CONTENTS_PER_PAGE
-    Post.select(:id, :file_hash, :extension, :created_at, :updated_at)
-      .order(Sequel.desc(:id))
-      .offset(page_num)
-      .limit(NUMBER_OF_CONTENTS_PER_PAGE)
+    Post.call_order_query(page_num, Sequel.desc(:id))
   end
 
   def self.tags(id, page_num=0)
