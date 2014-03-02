@@ -25,7 +25,7 @@ class Tag < Sequel::Model
       if tag =~ /\A\d+\z/ then
         buf = DB[:tags].where(id: tag.to_i).first  
         if buf.nil? then
-          halt 400, "Do not found tag_id(#{tag})."
+          raise ArgumentError, "Do not found tag_id(#{tag})."
         end
       else
         DB[:tags].where(name: tag).first
@@ -33,7 +33,7 @@ class Tag < Sequel::Model
     when Integer
       buf = DB[:tags].where(id: tag).first
       if buf.nil? then
-        halt 400, "Do not found tag_id(#{tag})."
+        raise ArgumentError, "Do not found tag_id(#{tag})."
       end
     end
   end
@@ -61,7 +61,7 @@ class Tag < Sequel::Model
       .update(count: Sequel.-(:count, 1))
   end
 
-  def self.change_category(category_name)
-    DB[:categories].where(name: category_name)
+  def self.change_category(tag_name, category_name)
+    
   end
 end
