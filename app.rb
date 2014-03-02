@@ -27,7 +27,6 @@ require './aws.rb'
 require './salt.rb'
 require './helpers/connector.rb'
 require './helpers/crypt.rb'
-require './helpers/validation.rb'
 require './helpers/exception.rb'
 DB = Connector.mysql # Modelを読み込むより先に実行する必要がある
 
