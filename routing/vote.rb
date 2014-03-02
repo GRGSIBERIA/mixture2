@@ -29,11 +29,11 @@ def routing_vote
     tag_name
   end
 
-  get '/vote/tag/change/category' do 
-
+  get '/change/tag/category_id' do 
+    slim :change_category
   end
 
-  post '/vote/tag/change' do 
+  post '/change/tag/category' do 
 
   end
 end
