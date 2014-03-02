@@ -15,8 +15,8 @@ class Tag < Sequel::Model
 
     validates_format(/\A\w+\z/, :name)
 
-    errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
-    errors.add(:name, 'use only numerical') if name =~ /\A\d+\z/
+    errors.add(:name, 'name include the invalid word.') if INVALID_WORDS.include?(name)
+    errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
   end
 
   def self.find(tag)
@@ -41,15 +41,15 @@ class Tag < Sequel::Model
   def self.create(tag_name)
     tag = Tag.new
     tag.name = tag_name
-    tag.category_id = 1.to_s
+    tag.category_id = 1
     tag.created_at = Time.now.to_s
     tag.validate
     unless tag.valid? then
-      raise ArgumentError, "duplicate tag name(#{tag_name})."
+      raise ArgumentError, tag.errors.join('\n')
     end
     tag.save
 
-    
+    Category.countup(tag.category_id)
     tag
   end
 end

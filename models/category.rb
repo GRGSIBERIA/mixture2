@@ -14,7 +14,8 @@ class Category < Sequel::Model
     
     validates_format(/\A\w+\z/, :name)
 
-    errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
+    errors.add(:name, 'name include the invalid word.') if INVALID_WORDS.include?(name)
+    errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
   end
 
   def self.find(id)
@@ -36,7 +37,7 @@ class Category < Sequel::Model
     category.created_at = Time.now.to_s
     category.validate
     unless category.valid? then
-      raise ArgumentError, "duplicate category_name(#{category_name})"
+      raise ArgumentError, tag.errors.join('\n')
     end
     category.save
     category
@@ -45,12 +46,12 @@ class Category < Sequel::Model
   def self.countup(category_id)
     category = DB[:categories]
       .where(id: category_id)
-      .update(counter: Sequel.+(:counter, 1))
+      .update(count: Sequel.+(:count, 1))
   end
 
   def self.countdown(category_id)
     category = DB[:categories]
       .where(id: category_id)
-      .update(counter: Sequel.-(:counter, 1))
+      .update(count: Sequel.-(:count, 1))
   end
 end
