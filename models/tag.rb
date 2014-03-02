@@ -42,12 +42,14 @@ class Tag < Sequel::Model
     tag = Tag.new
     tag.name = tag_name
     tag.category_id = 1.to_s
-    #tag.created_at = Time.now.to_s
-    #tag.validate
-    #unless tag.valid? then
-      #raise ArgumentError, "duplicate tag name(#{tag_name})."
-    #end
-    #tag.save
+    tag.created_at = Time.now.to_s
+    tag.validate
+    unless tag.valid? then
+      raise ArgumentError, "duplicate tag name(#{tag_name})."
+    end
+    tag.save
+
+    
     tag
   end
 end
