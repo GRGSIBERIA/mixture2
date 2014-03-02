@@ -3,7 +3,7 @@ Sequel.migration do
     
     create_table(:thumbnails, :ignore_index_errors=>true) do
       primary_key :id
-      String :file_name, :size=>255, :null=>false
+      String :primary_thumb, null: false, size: 2, default: "f"
       DateTime :created_at
       
       foreign_key :post_id,:posts, null: false
