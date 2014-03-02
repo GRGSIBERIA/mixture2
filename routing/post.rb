@@ -13,13 +13,29 @@ def redirect_url(host_url, user_name)
 end
 
 def routing_post
+  get '/post/listing/new' do 
+    Post.order_by_new.to_json
+  end
+
   get '/post/listing/new/:page_num' do 
     Post.order_by_new(params[:page_num]).to_json
+  end
+
+  get '/post/listing/old' do 
+    Post.order_by_old.to_json
   end
 
   get '/post/listing/old/:page_num' do 
     Post.order_by_old(params[:page_num]).to_json
   end
+
+  get '/post/listing/:user_id/:page_num' do 
+    User.posts(params[:user_id], params[:page_num]).to_json
+  end
+
+  get '/post/listing/:user_id' do 
+    User.posts(params[:user_id]).to_json
+  end  
   
   get '/post/done/:user_id' do 
     file_hash = File.basename(params[:key], ".*")
@@ -41,7 +57,6 @@ def routing_post
     if User.find(@user_id).nil? then
       halt 400, "BadRequest(user_id)"
     end
-
     slim :new_post
   end
 
@@ -64,13 +79,7 @@ def routing_post
     slim :render_simple
   end
 
-  get '/post/listing/:user_id/:page_num' do 
-    User.posts(params[:user_id], params[:page_num]).to_json
-  end
-
-  get '/post/listing/:user_id' do 
-    User.posts(params[:user_id]).to_json
-  end  
+  
 
   
 end
