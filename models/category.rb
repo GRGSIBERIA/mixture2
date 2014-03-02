@@ -35,11 +35,7 @@ class Category < Sequel::Model
     category = Category.new
     category.name = category_name
     category.created_at = Time.now.to_s
-    category.validate
-    unless category.valid? then
-      raise ArgumentError, tag.errors.join('\n')
-    end
-    category.save
+    save_to_validate(instance)
     category
   end
 

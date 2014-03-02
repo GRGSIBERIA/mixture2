@@ -43,11 +43,7 @@ class Tag < Sequel::Model
     tag.name = tag_name
     tag.category_id = 1
     tag.created_at = Time.now.to_s
-    tag.validate
-    unless tag.valid? then
-      raise ArgumentError, tag.errors.join('\n')
-    end
-    tag.save
+    save_to_validate(tag)
 
     Category.countup(tag.category_id)
     tag

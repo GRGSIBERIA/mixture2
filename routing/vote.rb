@@ -29,12 +29,11 @@ def routing_vote
     tag_name
   end
 
-  get '/vote/post/:post_id/:tag_name' do 
-    post_id = params[:post_id]
-    tag_name = params[:tag_name]
+  get '/vote/tag/change/category' do 
+
   end
 
-  get '/vote/category/:tag_id/:category_name' do 
+  post '/vote/tag/change' do 
 
   end
 end
