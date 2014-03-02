@@ -19,7 +19,12 @@ def routing_vote
   end
 
   post '/vote/tag/create' do 
-
+    tag_name = params[:tag_name]
+    begin 
+      Tag.create(tag_name)
+    rescue ArgumentError => e
+      halt 400, e.message
+    end
   end
 
   get '/vote/post/:post_id/:tag_name' do 
