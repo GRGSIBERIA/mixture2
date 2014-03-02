@@ -6,7 +6,6 @@ Sequel.migration do
       String :file_hash, :size=>66, :null=>false
       String :extension, :size=>12, :null=>false
       DateTime :created_at
-      DateTime :updated_at
       
       foreign_key :user_id, :users, null: false
       index [:user_id], :name=>:index_posts_on_user_id
@@ -14,3 +13,4 @@ Sequel.migration do
     
   end
 end
+

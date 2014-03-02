@@ -38,53 +38,16 @@ class Tag < Sequel::Model
     end
   end
 
-  def self.countup(tag_inst)
-    cnt = tag_inst.count + 1
-    tag_inst.update(count: cnt)
-  end
-
-  def self.countdown(tag_inst)
-    cnt = tag_inst.count - 1
-    tag_inst.update(count: cnt)
-  end
-
   def self.create(tag_name)
-    tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
-    tag.validate
-    unless tag.valid? then
-      halt 400, "Cannot created a tag name(#{tag_name})."
-    else
-      tag.save
-    end
+    tag = Tag.new
+    tag.name = tag_name
+    tag.category_id = 1.to_s
+    #tag.created_at = Time.now.to_s
+    #tag.validate
+    #unless tag.valid? then
+      #raise ArgumentError, "duplicate tag name(#{tag_name})."
+    #end
+    #tag.save
     tag
-  end
-
-  def self.find_or_create(tag_name)
-    tag = Tag.find(tag_name)
-    if tag.nil? then
-      Tag.create(tag_name)
-    else
-      return tag
-    end
-  end
-
-  def self.to_i(inst)
-    case inst
-    when String
-      if inst =~ /\A\d+\z/ then
-        return inst.to_i
-      end
-    when Integer
-      return inst
-    end
-    nil
-  end
-
-  def self.vote(user_id, post_id, tag_name)
-    tag = Tag.find_or_create(tag_name)
-    user_id = Tag.to_i(user_id)
-    post_id = Tag.to_i(post_id)
-    
-    PostTag.vote(post_id, tag.id)
   end
 end

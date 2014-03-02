@@ -17,8 +17,7 @@ class Post < Sequel::Model
       user_id: user_id, 
       file_hash: file_hash, 
       extension: extension,
-      created_at: Time.now.to_s,
-      updated_at: Time.now.to_s)
+      created_at: Time.now.to_s)
     post.save
   end
 
@@ -29,7 +28,7 @@ class Post < Sequel::Model
   def self.call_order_query(page_num, order_by)
     offset = page_num.to_i * NUMBER_OF_CONTENTS_PER_PAGE
     DB[:posts]
-      .select(:id, :file_hash, :extension, :created_at, :updated_at)
+      .select(:id, :file_hash, :extension, :created_at)
       .order(order_by)
       .offset(offset)
       .limit(NUMBER_OF_CONTENTS_PER_PAGE)
