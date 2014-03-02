@@ -35,7 +35,7 @@ class Category < Sequel::Model
     category = Category.new
     category.name = category_name
     category.created_at = Time.now.to_s
-    save_to_validate(instance)
+    Validation.save_to_validate(instance)
     category
   end
 
