@@ -16,6 +16,7 @@ def routing_vote
     rescue ArgumentError => e
       halt 400, e.message
     end
+    category_name
   end
 
   post '/vote/tag/create' do 
@@ -25,6 +26,7 @@ def routing_vote
     rescue ArgumentError => e
       halt 400, e.message
     end
+    tag_name
   end
 
   get '/vote/post/:post_id/:tag_name' do 
