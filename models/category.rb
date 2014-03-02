@@ -15,6 +15,7 @@ class Category < Sequel::Model
     validates_format(/\A\w+\z/, :name)
 
     errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
+    errors.add(:name, 'use the invalid word') if name =~ /\A\d+\z/
   end
 
   def self.find(id)
@@ -28,5 +29,17 @@ class Category < Sequel::Model
       .order(Sequel.asc(:name))
       .offset(ofst)
       .limit(NUMBER_OF_WORDS_PER_PAGE)
+  end
+
+  def self.create(category_name)
+    category = Category.new
+    category.name = category_name
+    category.created_at = Time.now.to_s
+    category.validate
+    unless category.valid? then
+      raise ArgumentError, "duplicate category_name(#{category_name})"
+    end
+    category.save
+    category
   end
 end
