@@ -52,4 +52,16 @@ class Tag < Sequel::Model
     Category.countup(tag.category_id)
     tag
   end
+
+  def self.countup(tag_id)
+    category = DB[:tags]
+      .where(id: tag_id)
+      .update(count: Sequel.+(:count, 1))
+  end
+
+  def self.countdown(tag_id)
+    category = DB[:tags]
+      .where(id: tag_id)
+      .update(count: Sequel.-(:count, 1))
+  end
 end
