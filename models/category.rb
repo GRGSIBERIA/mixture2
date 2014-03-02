@@ -43,15 +43,11 @@ class Category < Sequel::Model
     category
   end
 
-  def self.countup(category_id)
-    category = DB[:categories]
-      .where(id: category_id)
-      .update(count: Sequel.+(:count, 1))
+  def self.countup(category)
+    Model.countup(:categories, category)
   end
 
-  def self.countdown(category_id)
-    category = DB[:categories]
-      .where(id: category_id)
-      .update(count: Sequel.-(:count, 1))
+  def self.countdown(category)
+    Model.countdown(:categories, category)
   end
 end

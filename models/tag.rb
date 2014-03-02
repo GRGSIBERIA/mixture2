@@ -49,19 +49,21 @@ class Tag < Sequel::Model
     tag
   end
 
-  def self.countup(tag_id)
-    tag = DB[:tags]
-      .where(id: tag_id)
-      .update(count: Sequel.+(:count, 1))
+  def self.countup(tag)
+    Model.countup(:tags, tag)
   end
 
-  def self.countdown(tag_id)
-    tag = DB[:tags]
-      .where(id: tag_id)
-      .update(count: Sequel.-(:count, 1))
+  def self.countdown(tag)
+    Model.countdown(:tags, tag)
   end
 
   def self.change_category(tag_name, category_name)
-    
+    tag = Tag.find(tag_name)
+
+    Category.countdown(tag.category_id)
+    Category.countup(category_name)
+
+    DB[:tags].where()
+    # 明日実装する
   end
 end
