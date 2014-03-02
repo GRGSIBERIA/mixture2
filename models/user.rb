@@ -50,18 +50,20 @@ class User < Sequel::Model
   end
 
   def self.call_order_query(page_num, order)
-    page = params[:page_num].to_i * 50
-    DB[:users].select(:id, :name, :nickname, :created_at)
+    page = page_num.to_i * 50
+    DB[:users]
+      .select(:id, :name, :nickname, :created_at)
       .order(order)
-      .offset(page).limit(50)
+      .offset(page)
+      .limit(50)
   end
 
   def self.order_by_new(page_num=0)
-    User.call_order_query(Sequel.desc(:id))
+    User.call_order_query(page_num, Sequel.desc(:id))
   end
 
   def self.order_by_old(page_num=0)
-    User.call_order_query(Sequel.asc(:id))
+    User.call_order_query(page_num, Sequel.asc(:id))
   end
 
   def self.posts(user_id, page_num=0)

@@ -30,7 +30,7 @@ class Post < Sequel::Model
     offset = page_num.to_i * NUMBER_OF_CONTENTS_PER_PAGE
     DB[:posts]
       .select(:id, :file_hash, :extension, :created_at, :updated_at)
-      .order()
+      .order(order_by)
       .offset(offset)
       .limit(NUMBER_OF_CONTENTS_PER_PAGE)
   end
