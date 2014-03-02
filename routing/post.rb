@@ -78,8 +78,4 @@ def routing_post
     end
     slim :render_simple
   end
-
-  
-
-  
 end
