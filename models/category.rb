@@ -15,7 +15,6 @@ class Category < Sequel::Model
     validates_format(/\A\w+\z/, :name)
 
     errors.add(:name, 'use the invalid word') if INVALID_WORDS.include?(name)
-    errors.add(:name, 'use the invalid word') if name =~ /\A\d+\z/
   end
 
   def self.find(id)
@@ -41,5 +40,17 @@ class Category < Sequel::Model
     end
     category.save
     category
+  end
+
+  def self.countup(category_id)
+    category = DB[:categories]
+      .where(id: category_id)
+      .update(counter: Sequel.+(:counter, 1))
+  end
+
+  def self.countdown(category_id)
+    category = DB[:categories]
+      .where(id: category_id)
+      .update(counter: Sequel.-(:counter, 1))
   end
 end
