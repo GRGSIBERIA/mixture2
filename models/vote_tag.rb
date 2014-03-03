@@ -26,7 +26,7 @@ class VoteTag < Sequel::Model
     unless vote.valid? then
       raise ArgumentError, vote.errors.full_messages.join('<br>')
     end
-    vote.save!
+    vote.save
     vote
   end
 end
