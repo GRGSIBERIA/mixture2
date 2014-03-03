@@ -55,8 +55,9 @@ class Tag < Sequel::Model
   def self.vote_tag(tag_id, post_id, user_id)
     DB.transaction do 
       post_tag = PostTag.find_or_create(post_id, tag_id)
+      vote_tag = VoteTag.find_or_create(post_tag.id, user_id, 1)
 
-
+      Tag.where(id: tag_id).update(count: Sequel.+(:count, 1))
     end
   end
 end
