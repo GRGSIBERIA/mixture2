@@ -1,25 +1,10 @@
 #-*- encoding: utf-8
-
-def routing_vote
-  get '/vote/tag/new' do 
+def routing_tag
+  get '/tag/new' do 
     slim :new_tag
   end
 
-  get '/vote/category/new' do 
-    slim :new_category
-  end
-
-  post '/vote/category/create' do 
-    category_name = params[:category_name]
-    begin
-      Category.create(category_name)
-    rescue ArgumentError => e
-      halt 400, e.message
-    end
-    category_name
-  end
-
-  post '/vote/tag/create' do 
+  post '/tag/create' do 
     tag_name = params[:tag_name]
     begin 
       Tag.create(tag_name)
@@ -29,11 +14,11 @@ def routing_vote
     tag_name
   end
 
-  get '/change/tag/category_id' do 
+  get '/tag/change/category_id' do 
     slim :change_category
   end
 
-  post '/change/tag/category' do 
+  post '/tag/change/category' do 
     tag_id = params[:tag_id].to_i
     category_name = params[:category_name]
     begin
@@ -42,5 +27,13 @@ def routing_vote
       halt 400, e.message
     end
     "succeeded"
+  end
+
+  post '/tag/vote' do 
+    
+  end
+
+  get '/tag/vote/:post_id' do 
+    
   end
 end

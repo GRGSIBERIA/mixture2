@@ -44,7 +44,8 @@ Sequel::Model.plugin :json_serializer
 
 require './routing/user.rb'
 require './routing/post.rb'
-require './routing/vote.rb'
+require './routing/category.rb'
+require './routing/tag.rb'
 
 class Server < Sinatra::Base
   configure :development do
@@ -59,7 +60,8 @@ class Server < Sinatra::Base
   
   routing_user
   routing_post
-  routing_vote
+  routing_tag
+  routing_category
 end
 
 

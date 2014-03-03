@@ -55,7 +55,7 @@ def routing_post
 
     @user_id = params[:user_id].to_i
     if User.find(id: @user_id).nil? then
-      halt 400, "BadRequest(user_id)"
+      halt 400, "user_id(#{@user_id}) is not found."
     end
     slim :new_post
   end
@@ -65,7 +65,7 @@ def routing_post
     user = User.find(id: user_id)
     @render = ""
     if user.nil? then
-      halt 400, "BadRequest(user_id)"
+      halt 400, "user_id(#{user_id}) is not found."
     else
       file_hash = file_name_hash(request)
       buf_policy = s3_policy(redirect_url(host_url, user.id))
