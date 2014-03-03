@@ -51,4 +51,8 @@ class Tag < Sequel::Model
     end
     tag
   end
+
+  def self.vote_tag(tag_id, post_id, user_id)
+
+  end
 end

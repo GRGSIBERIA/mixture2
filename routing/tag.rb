@@ -29,11 +29,12 @@ def routing_tag
     "succeeded"
   end
 
+  # あくまで投票するだけで，追加はできない
   post '/tag/vote' do 
-    
+
   end
 
   get '/tag/vote/:post_id' do 
-    
+    slim :vote_tag
   end
 end
