@@ -36,17 +36,8 @@ class User < Sequel::Model
       })
   end
 
-  def self.find(id)
-    case id 
-    when String
-      if id =~ /\A\d+\z/ then
-        return DB[:users].where(id: id.to_i).first
-      else
-        return DB[:users].where(name: id).first
-      end
-    when Integer
-      return DB[:users].where(id: id).first
-    end
+  def self.find(user)
+    Model.find(:users, user)
   end
 
   def self.call_order_query(page_num, order)

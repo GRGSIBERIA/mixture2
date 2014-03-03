@@ -20,22 +20,7 @@ class Tag < Sequel::Model
   end
 
   def self.find(tag)
-    case tag 
-    when String
-      if tag =~ /\A\d+\z/ then
-        buf = DB[:tags].where(id: tag.to_i).first
-        if buf.nil? then
-          raise ArgumentError, "Do not found tag_id(#{tag})."
-        end
-      else
-        DB[:tags].where(name: tag).first
-      end
-    when Integer
-      buf = DB[:tags].where(id: tag).first
-      if buf.nil? then
-        raise ArgumentError, "Do not found tag_id(#{tag})."
-      end
-    end
+    Model.find(:tags, tag)
   end
 
   def self.create(tag_name)
@@ -68,7 +53,7 @@ class Tag < Sequel::Model
       Category.countdown(tag.category_id)
       Category.countup(category_name)
 
-      category = Category.find_by_name(category_name)
+      category = Category.find(category_name)
       tag.category_id = category.id
       tag.save
     end

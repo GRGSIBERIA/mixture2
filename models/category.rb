@@ -18,12 +18,8 @@ class Category < Sequel::Model
     errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
   end
 
-  def self.find_by_id(id)
-    DB[:categories].where(id: id.to_i).first
-  end
-
-  def self.find_by_name(name)
-    DB[:categories].where(name: name).first
+  def self.find(category)
+    Model.find(:categories, category)
   end
 
   def self.tags(category_id, page_num=0)
