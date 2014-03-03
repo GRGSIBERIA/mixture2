@@ -7,8 +7,8 @@ Sequel.migration do
       
       foreign_key :user_id, :users, null: false
       foreign_key :tag_id,  :tags,  null: false
-      foreign_key :post_id, :posts, null: false
-      index [:tag_id, :post_id], :name=>:index_vote_tags_on_tag_id_and_post_id
+      foreign_key :post_tag_id, :posts, null: false
+      index [:tag_id, :post_tag_id], :name=>:index_vote_tags_on_tag_id_and_post_tag_id
     end
   end
 end
