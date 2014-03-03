@@ -23,7 +23,7 @@ class Tag < Sequel::Model
     case tag 
     when String
       if tag =~ /\A\d+\z/ then
-        buf = DB[:tags].where(id: tag.to_i).first  
+        buf = DB[:tags].where(id: tag.to_i).first
         if buf.nil? then
           raise ArgumentError, "Do not found tag_id(#{tag})."
         end
