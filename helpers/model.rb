@@ -35,6 +35,15 @@ module Model
     inst
   end
 
+  def save_to_validate(instance)
+    instance.validate
+    unless instance.valid? then
+      raise ArgumentError, instance.errors.join('\n')
+    end
+    instance.save
+  end
+
+  module_function :save_to_validate
   module_function :countup
   module_function :countdown
   module_function :find

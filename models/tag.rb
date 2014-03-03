@@ -30,7 +30,7 @@ class Tag < Sequel::Model
       tag.name = tag_name
       tag.category_id = 1
       tag.created_at = Time.now.to_s
-      Validation.save_to_validate(tag)
+      Model.save_to_validate(tag)
 
       Category.countup(tag.category_id)
     end
