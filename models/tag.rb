@@ -25,7 +25,7 @@ class Tag < Sequel::Model
 
   def self.create(tag_name)
     tag = nil
-    DB.transaction
+    DB.transaction do 
       tag = Tag.new
       tag.name = tag_name
       tag.category_id = 1
