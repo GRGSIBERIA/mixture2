@@ -36,10 +36,6 @@ class User < Sequel::Model
       })
   end
 
-  def self.find(user)
-    Model.find(:users, user)
-  end
-
   def self.call_order_query(page_num, order)
     page = page_num.to_i * 50
     DB[:users]

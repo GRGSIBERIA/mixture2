@@ -21,10 +21,6 @@ class Post < Sequel::Model
     post.save
   end
 
-  def self.find(id)
-    DB[:posts].where(id: id.to_i).first
-  end
-
   def self.call_order_query(page_num, order_by)
     offset = page_num.to_i * NUMBER_OF_CONTENTS_PER_PAGE
     DB[:posts]

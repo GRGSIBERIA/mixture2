@@ -53,15 +53,16 @@ def routing_post
     @signature = s3_signature(@policy)
     @redirect = host_url
 
-    @user_id = params[:user_id]
-    if User.find(@user_id).nil? then
+    @user_id = params[:user_id].to_i
+    if User.find(id: @user_id).nil? then
       halt 400, "BadRequest(user_id)"
     end
     slim :new_post
   end
 
   get '/post/prepare/:user_id' do 
-    user = User.find(params[:user_id])
+    user_id = params[:user_id].to_i
+    user = User.find(id: user_id)
     @render = ""
     if user.nil? then
       halt 400, "BadRequest(user_id)"

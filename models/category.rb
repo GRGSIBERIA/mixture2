@@ -18,10 +18,6 @@ class Category < Sequel::Model
     errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
   end
 
-  def self.find(category)
-    Model.find(:categories, category)
-  end
-
   def self.tags(category_id, page_num=0)
     ofst = page_num * NUMBER_OF_WORDS_PER_PAGE
     DB[:tags]
@@ -37,13 +33,5 @@ class Category < Sequel::Model
     category.created_at = Time.now.to_s
     Model.save_to_validate(instance)
     category
-  end
-
-  def self.countup(category)
-    Model.countup(:categories, category)
-  end
-
-  def self.countdown(category)
-    Model.countdown(:categories, category)
   end
 end

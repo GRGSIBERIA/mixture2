@@ -19,10 +19,6 @@ class Tag < Sequel::Model
     errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
   end
 
-  def self.find(tag)
-    Model.find(:tags, tag)
-  end
-
   def self.create(tag_name)
     tag = nil
     DB.transaction do 
@@ -32,28 +28,21 @@ class Tag < Sequel::Model
       tag.created_at = Time.now.to_s
       Model.save_to_validate(tag)
 
-      Category.countup(tag.category_id)
+      Category.where(id: tag.category_id).update(count: Sequel.+(:count, 1))
     end
     tag
   end
 
-  def self.countup(tag)
-    Model.countup(:tags, tag)
-  end
-
-  def self.countdown(tag)
-    Model.countdown(:tags, tag)
-  end
-
-  def self.change_category(tag_name, category_name)
+  def self.change_category(tag_id, category_name)
     tag = nil
     DB.transaction do 
-      tag = Tag.find(tag_name)
+      tag = Tag.find(id: tag_id)
 
-      Category.countdown(tag.category_id)
-      Category.countup(category_name)
+      Category.where(id: tag.category_id).update(count: Sequel.-(:count, 1))
+      Category.where(name: category_name).update(count: Sequel.+(:count, 1))
 
-      category = Category.find(category_name)
+      category = Category.find(name: category_name)
+
       tag.category_id = category.id
       tag.save
     end

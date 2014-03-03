@@ -34,6 +34,13 @@ def routing_vote
   end
 
   post '/change/tag/category' do 
-
+    tag_id = params[:tag_id].to_i
+    category_name = params[:category_name]
+    begin
+      Tag.change_category(tag_id, category_name)
+    rescue ArgumentError => e
+      halt 400, e.message
+    end
+    "succeeded"
   end
 end
