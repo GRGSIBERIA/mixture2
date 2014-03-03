@@ -22,10 +22,7 @@ class Tag < Sequel::Model
   def self.create(tag_name)
     tag = nil
     DB.transaction do 
-      tag = Tag.new
-      tag.name = tag_name
-      tag.category_id = 1
-      tag.created_at = Time.now.to_s
+      tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
       Model.save_to_validate(tag)
 
       Category.where(id: tag.category_id).update(count: Sequel.+(:count, 1))
