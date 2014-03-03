@@ -28,10 +28,16 @@ class Category < Sequel::Model
   end
 
   def self.create(category_name)
-    category = Category.new
-    category.name = category_name
-    category.created_at = Time.now.to_s
-    Model.save_to_validate(instance)
+    category = Category.new(name: category_name, created_at: Time.now.to_s)
+    Model.save_to_validate(category)
+    category
+  end
+
+  def self.find_or_create(category_name)
+    category = Category.find(name: category_name)
+    if category.nil? then
+      category = Category.create(category_name)
+    end
     category
   end
 end

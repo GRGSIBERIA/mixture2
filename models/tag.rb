@@ -24,8 +24,15 @@ class Tag < Sequel::Model
     DB.transaction do 
       tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
       Model.save_to_validate(tag)
-
       Category.where(id: tag.category_id).update(count: Sequel.+(:count, 1))
+    end
+    tag
+  end
+
+  def self.find_or_create(tag_name)
+    tag = Tag.find(name: tag_name)
+    if tag.nil? then
+      tag = Tag.create(tag_name)
     end
     tag
   end
@@ -34,12 +41,13 @@ class Tag < Sequel::Model
     tag = nil
     DB.transaction do 
       tag = Tag.find(id: tag_id)
-
+      if tag.nil? then
+        raise ArgumentError, "tag_id(#{tag_id}) is not found."
+      end
       Category.where(id: tag.category_id).update(count: Sequel.-(:count, 1))
-      Category.where(name: category_name).update(count: Sequel.+(:count, 1))
 
-      category = Category.find(name: category_name)
-
+      category = Category.find_or_create(category_name)
+      Category.where(id: category.id).update(count: Sequel.+(:count, 1))
       tag.category_id = category.id
       tag.save
     end
