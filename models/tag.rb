@@ -39,13 +39,16 @@ class Tag < Sequel::Model
   end
 
   def self.create(tag_name)
-    tag = Tag.new
-    tag.name = tag_name
-    tag.category_id = 1
-    tag.created_at = Time.now.to_s
-    Validation.save_to_validate(tag)
+    tag = nil
+    DB.transaction
+      tag = Tag.new
+      tag.name = tag_name
+      tag.category_id = 1
+      tag.created_at = Time.now.to_s
+      Validation.save_to_validate(tag)
 
-    Category.countup(tag.category_id)
+      Category.countup(tag.category_id)
+    end
     tag
   end
 
@@ -58,12 +61,17 @@ class Tag < Sequel::Model
   end
 
   def self.change_category(tag_name, category_name)
-    tag = Tag.find(tag_name)
+    tag = nil
+    DB.transaction do 
+      tag = Tag.find(tag_name)
 
-    Category.countdown(tag.category_id)
-    Category.countup(category_name)
+      Category.countdown(tag.category_id)
+      Category.countup(category_name)
 
-    DB[:tags].where()
-    # 明日実装する
+      category = Category.find_by_name(category_name)
+      tag.category_id = category.id
+      tag.save
+    end
+    tag
   end
 end
