@@ -17,7 +17,7 @@ class VoteTag < Sequel::Model
     validates_integer :post_tag_id
   end
 
-  def self.find_or_create(post_tag, user_id, vote_unvote)
+  def self.find_create(post_tag, user_id, vote_unvote)
     vote_tag = VoteTag.where(post_tag_id: post_tag.id, user_id: user_id).first
     unless vote_tag.nil? then
       raise ArgumentError, "user(#{user_id}) was voted tag to post."

@@ -23,8 +23,7 @@ class Post < Sequel::Model
 
   def self.call_order_query(page_num, order_by)
     offset = page_num.to_i * NUMBER_OF_CONTENTS_PER_PAGE
-    DB[:posts]
-      .select(:id, :file_hash, :extension, :created_at)
+    Post.select(:id, :file_hash, :extension, :created_at)
       .order(order_by)
       .offset(offset)
       .limit(NUMBER_OF_CONTENTS_PER_PAGE)
@@ -40,9 +39,8 @@ class Post < Sequel::Model
 
   def self.tags(id, page_num=0)
     # これで動くか全くわからない, 要テスト
-    post_tags = DB[:post_tags]
-      .where(post_id: id.to_i)
-      .join_table(:inner, DB[:tags], id: :tag_id)
+    post_tags = PostTag.where(post_id: id.to_i)
+      .join_table(:inner, Tag, id: :tag_id)
     # 吐き出されるハッシュが不明なので要検証
   end
 end
