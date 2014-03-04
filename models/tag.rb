@@ -55,4 +55,16 @@ class Tag < Sequel::Model
       vote_tag = VoteTag.find_or_create(post_tag, user_id, 1)
     end
   end
+
+  def self.unvote_tag(tag_id, post_id, user_id)
+    DB.transaction do 
+      user = User.exists_id(user_id)
+
+      post_tag = PostTag.where(tag_id: tag_id, post_id: post_id).first
+      if post_tag.nil? then 
+        
+      end
+
+    end
+  end
 end
