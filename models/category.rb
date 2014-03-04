@@ -24,7 +24,7 @@ class Category < Sequel::Model
       .limit(NUMBER_OF_WORDS_PER_PAGE)
   end
 
-  def self.find_or_create(category_name)
+  def self.find_create(category_name)
     category = Category.find_or_create(name: category_name) {|c|
       c.name = category_name
       c.created_at = Time.now.to_s

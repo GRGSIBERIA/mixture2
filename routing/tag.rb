@@ -9,7 +9,7 @@ def routing_tag
     tag_name = params[:tag_name]
     begin 
       Tag.create(name: tag_name, category_id: 1, created_at: Time.now.to_s)
-    rescue ArgumentError => e
+    rescue Sequel::ValidationFailed => e
       halt 400, e.message
     end
     tag_name
