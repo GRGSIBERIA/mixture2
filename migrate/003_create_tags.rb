@@ -8,8 +8,8 @@ Sequel.migration do
       DateTime :created_at
       
       foreign_key :category_id, :categories, null: false, default: 1
-      index [:category_id], :name=>:index_tags_on_category_id
-      index [:name], :name=>:index_tags_on_name, :unique=>true
+      index :category_id
+      index :name, unique: true
     end
     
   end

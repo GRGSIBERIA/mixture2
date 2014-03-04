@@ -7,7 +7,7 @@ Sequel.migration do
       foreign_key :user_id,     :users,     null: false
       foreign_key :tag_id,      :tags,      null: false
       foreign_key :category_id, :categories,null: false
-      index [:category_id], :name=>:index_vote_categories_on_category_id
+      index :category_id
     end
     
   end

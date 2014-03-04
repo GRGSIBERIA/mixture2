@@ -9,7 +9,7 @@ Sequel.migration do
       DateTime :created_at
       DateTime :updated_at
       
-      index [:name], :name=>:index_users_on_name, :unique=>true
+      index :name, unique: true
     end
     
   end

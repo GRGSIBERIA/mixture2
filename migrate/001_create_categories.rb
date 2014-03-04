@@ -6,7 +6,7 @@ Sequel.migration do
       Integer :count, :default=>0, :null=>false
       DateTime :created_at
       
-      index [:name], :name=>:index_categories_on_name, :unique=>true
+      index :name, unique: true
     end
     
   end

@@ -7,7 +7,7 @@ Sequel.migration do
       DateTime :created_at
       
       foreign_key :post_id,:posts, null: false
-      index [:post_id], :name=>:index_thumbnails_on_post_id
+      index :post_id
     end
   end
 end

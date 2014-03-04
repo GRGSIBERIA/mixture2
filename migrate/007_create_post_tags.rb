@@ -8,7 +8,8 @@ Sequel.migration do
       foreign_key :tag_id, :tags , null: false
       foreign_key :post_id,:posts, null: false
       unique [:tag_id, :post_id]
-      index [:tag_id, :post_id], :name=>:index_post_tags_on_tag_id_and_post_id
+      index :tag_id
+      index :post_id
     end
   end
 end
