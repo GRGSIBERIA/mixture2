@@ -22,7 +22,8 @@ class PostTag < Sequel::Model
   def self.exists(post_id, tag_id)
     post_tag = PostTag.where(tag_id: tag_id, post_id: post_id).first
     if post_tag.nil? then 
-      
+      raise ArgumentError, "Doesn't attached tag(#{tag_id}) to post(#{post_id})."
     end
+    post_tag
   end
 end
