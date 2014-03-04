@@ -48,15 +48,23 @@ def routing_tag
     "succeeded"
   end
 
-  get '/tag/vote/:post_id' do 
+  get '/tag/vote' do 
     slim :vote_tag
   end
 
   post '/tag/unvote' do 
-
+    begin
+      tag_id = params[:tag_id].to_i
+      post_id = params[:post_id].to_i
+      user_id = params[:user_id].to_i
+      Tag.unvote_tag(tag_id, post_id, user_id)
+    rescue ArgumentError => e
+      halt 400, e.message
+    end
+    "succeeded"
   end
 
-  get '/tag/unvote/:post_id' do 
-    
+  get '/tag/unvote' do 
+    slim :unvote_tag
   end
 end
