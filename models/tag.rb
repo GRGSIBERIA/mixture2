@@ -19,9 +19,14 @@ class Tag < Sequel::Model
 
   def self.create(tag_name)
     tag = nil
-    DB.transaction do 
-      tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
-      Model.save_to_validate(tag)
+    begin 
+      DB.transaction do 
+        tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
+        Model.save_to_validate(tag)
+      end
+    rescue Sequel::ForeignKeyConstraintViolation => e 
+      target = e.message.scan(/FOREIGN KEY \(`\w+/)[0].split("(`")[1]
+      raise ArgumentError, "Do not exist #{target}"
     end
     tag
   end
@@ -37,13 +42,8 @@ class Tag < Sequel::Model
   def self.change_category(tag_id, category_name)
     tag = nil
     DB.transaction do 
-      tag = Tag.find(id: tag_id)
-      if tag.nil? then
-        raise ArgumentError, "tag_id(#{tag_id}) is not found."
-      end
       category = Category.find_or_create(category_name)
-      tag.category_id = category.id
-      tag.save
+      Tag.where(id: tag_id).update(category_id: category.id)
     end
     tag
   end
@@ -51,7 +51,6 @@ class Tag < Sequel::Model
   def self.vote_tag(tag_id, post_id, user_id)
     begin 
       DB.transaction do 
-        #user = User.exists_id(user_id)
         post_tag = PostTag.find_or_create(post_id, tag_id)
         vote_tag = VoteTag.find_or_create(post_tag, user_id, 1)
       end
@@ -62,7 +61,6 @@ class Tag < Sequel::Model
 
   def self.unvote_tag(tag_id, post_id, user_id)
     DB.transaction do 
-      #user = User.exists_id(user_id)
       post_tag = PostTag.exists(post_id, tag_id)
       vote_tag = VoteTag.find_or_create(post_tag, user_id, -1)
     end
