@@ -8,7 +8,7 @@ def routing_tag
   post '/tag/create' do 
     tag_name = params[:tag_name]
     begin 
-      Tag.create(tag_name)
+      Tag.create(name: tag_name, category_id: 1, created_at: Time.now.to_s)
     rescue ArgumentError => e
       halt 400, e.message
     end

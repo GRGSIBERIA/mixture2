@@ -17,26 +17,12 @@ class Tag < Sequel::Model
     errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
   end
 
-  def self.create(tag_name)
-    tag = nil
-    begin 
-      DB.transaction do 
-        tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
-        Model.save_to_validate(tag)
-      end
-    rescue Sequel::ForeignKeyConstraintViolation => e 
-      target = e.message.scan(/FOREIGN KEY \(`\w+/)[0].split("(`")[1]
-      raise ArgumentError, "Do not exist #{target}"
-    end
-    tag
-  end
-
   def self.find_or_create(tag_name)
-    tag = Tag.find(name: tag_name)
-    if tag.nil? then
-      tag = Tag.create(tag_name)
-    end
-    tag
+    tag = Tag.find_or_create(name: tag_name) { |t| 
+      t.name = tag_name
+      t.category_id = 1
+      t.created_at = Time.now.to_s
+    }
   end
 
   def self.change_category(tag_id, category_name)

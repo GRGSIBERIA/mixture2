@@ -8,7 +8,7 @@ def routing_category
   post '/category/create' do 
     category_name = params[:category_name]
     begin
-      Category.create(category_name)
+      Category.create(name: category_name, created_at: Time.now.to_s)
     rescue ArgumentError => e
       halt 400, e.message
     end

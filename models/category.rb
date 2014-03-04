@@ -18,24 +18,19 @@ class Category < Sequel::Model
 
   def self.tags(category_id, page_num=0)
     ofst = page_num * NUMBER_OF_WORDS_PER_PAGE
-    DB[:tags]
-      .where(category_id: category_id.to_i)
+    Tag.where(category_id: category_id.to_i)
       .order(Sequel.asc(:name))
       .offset(ofst)
       .limit(NUMBER_OF_WORDS_PER_PAGE)
   end
 
-  def self.create(category_name)
-    category = Category.new(name: category_name, created_at: Time.now.to_s)
-    Model.save_to_validate(category)
-    category
-  end
-
   def self.find_or_create(category_name)
-    category = Category.find(name: category_name)
-    if category.nil? then
-      category = Category.create(category_name)
-    end
+    category = Category.find_or_create(name: category_name) {|c|
+      c.name = category_name
+      c.created_at = Time.now.to_s
+      c.validate 
+      raise ArgumentError, c.errors.full_messages.join("<br>") unless c.valid?
+    }
     category
   end
 end
