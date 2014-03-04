@@ -22,7 +22,6 @@ class Tag < Sequel::Model
     DB.transaction do 
       tag = Tag.new(name: tag_name, category_id: 1, created_at: Time.now.to_s)
       Model.save_to_validate(tag)
-      Category.where(id: tag.category_id).update(count: Sequel.+(:count, 1))
     end
     tag
   end
@@ -42,10 +41,7 @@ class Tag < Sequel::Model
       if tag.nil? then
         raise ArgumentError, "tag_id(#{tag_id}) is not found."
       end
-      Category.where(id: tag.category_id).update(count: Sequel.-(:count, 1))
-
       category = Category.find_or_create(category_name)
-      Category.where(id: category.id).update(count: Sequel.+(:count, 1))
       tag.category_id = category.id
       tag.save
     end
@@ -54,10 +50,9 @@ class Tag < Sequel::Model
 
   def self.vote_tag(tag_id, post_id, user_id)
     DB.transaction do 
+      user = User.exists_id(user_id)
       post_tag = PostTag.find_or_create(post_id, tag_id)
-      vote_tag = VoteTag.find_or_create(post_tag.id, user_id, 1)
-
-      Tag.where(id: tag_id).update(count: Sequel.+(:count, 1))
+      vote_tag = VoteTag.find_or_create(post_tag, user_id, 1)
     end
   end
 end

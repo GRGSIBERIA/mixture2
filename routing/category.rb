@@ -1,6 +1,6 @@
 #-*- encoding: utf-8
 
-def routing_cotegory
+def routing_category
   get '/category/new' do 
     slim :new_category
   end
