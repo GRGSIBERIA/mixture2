@@ -18,4 +18,11 @@ class PostTag < Sequel::Model
     end
     post_tag
   end
+
+  def self.exists(post_id, tag_id)
+    post_tag = PostTag.where(tag_id: tag_id, post_id: post_id).first
+    if post_tag.nil? then 
+      
+    end
+  end
 end
