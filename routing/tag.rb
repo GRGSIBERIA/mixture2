@@ -58,7 +58,14 @@ def routing_tag
   end
 
   post '/tag/vote' do 
-
+    post_tag = nil
+    begin
+      post_tag_id = params[:post_tag_id].to_i
+      user_id = params[:user_id].to_i
+      VoteTag.check_as_create(post_tag_id, user_id, 1)
+    rescue => e
+      raise_helper(e)
+    end
   end
 
   get '/tag/vote' do 
