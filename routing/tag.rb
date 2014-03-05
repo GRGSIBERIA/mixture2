@@ -1,4 +1,15 @@
 #-*- encoding: utf-8
+def raise_helper(e)
+  begin
+    raise e, e.message
+  rescue ArgumentError => e
+    halt 400, e.message
+  rescue Sequel::ForeignKeyConstraintViolation => e 
+    var = not_found_foreign_key(e)
+    halt 400, "#{var}(#{eval(var)}) is not found."
+  end
+end
+
 def routing_tag
   get '/tag/new' do 
     slim :new_tag
@@ -19,14 +30,15 @@ def routing_tag
   end
 
   post '/tag/change/category' do 
-    tag_id = params[:tag_id].to_i
-    category_name = params[:category_name]
+    tag = nil
     begin
-      Tag.change_category(tag_id, category_name)
+      tag_id = params[:tag_id].to_i
+      category_name = params[:category_name]
+      tag = Tag.change_category(tag_id, category_name)
     rescue ArgumentError => e
       halt 400, e.message
     end
-    "succeeded"
+    "succeeded #{tag.category_id}"
   end
 
   post '/tag/attach' do 
@@ -35,15 +47,21 @@ def routing_tag
       tag_id  = params[:tag_id]
       post_id = params[:post_id]
       post_tag = PostTag.check_as_create(post_id, tag_id)
-    rescue ArgumentError => e
-      halt 400, e.message
-    rescue Sequel::ForeignKeyConstraintViolation => e 
-      var = not_found_foreign_key(e)
-      halt 400, "#{var}(#{eval(var)}) is not found."
+    rescue => e
+      raise_helper(e)
     end
+    "succeeded #{post_tag.id.to_s}"
   end
 
   get '/tag/attach' do 
     slim :attach_tag
+  end
+
+  post '/tag/vote' do 
+
+  end
+
+  get '/tag/vote' do 
+    slim :vote_tag
   end
 end
