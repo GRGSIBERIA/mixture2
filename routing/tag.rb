@@ -41,7 +41,7 @@ def routing_tag
       tag_id = params[:tag_id].to_i
       post_id = params[:post_id].to_i
       user_id = params[:user_id].to_i
-      Tag.vote_tag(tag_id, post_id, user_id)
+      PostTag.check_as_create(tag_id, post_id)
     rescue ArgumentError => e
       halt 400, e.message
     end

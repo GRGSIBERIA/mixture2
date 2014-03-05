@@ -17,7 +17,7 @@ class VoteTag < Sequel::Model
     validates_integer :post_tag_id
   end
 
-  def self.create(post_tag, user_id, vote_unvote)
+  def self.check_as_create(post_tag, user_id, vote_unvote)
     # 既に同じユーザが同じタグに投票したかチェックする
     vote_tag = VoteTag.where(post_tag_id: post_tag.id, user_id: user_id).first
     raise ArgumentError, "user(#{user_id}) was voted tag(#{post_tag.tag_id}) to post(#{post_tag.post_id})." unless vote_tag.nil?
