@@ -62,7 +62,8 @@ def routing_tag
     begin
       post_tag_id = params[:post_tag_id].to_i
       user_id = params[:user_id].to_i
-      VoteTag.check_as_create(post_tag_id, user_id, 1)
+      vote_unvote = params[:vote_unvote].to_i
+      VoteTag.check_as_create(post_tag_id, user_id, vote_unvote)
     rescue => e
       raise_helper(e)
     end
