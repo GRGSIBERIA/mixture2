@@ -33,22 +33,4 @@ class Tag < Sequel::Model
     end
     tag
   end
-
-  def self.vote_tag(tag_id, post_id, user_id)
-    begin 
-      DB.transaction do 
-        post_tag = PostTag.find_create(post_id, tag_id)
-        vote_tag = VoteTag.find_create(post_tag, user_id, 1)
-      end
-    rescue Sequel::ForeignKeyConstraintViolation => e 
-      raise ArgumentError, e.message
-    end
-  end
-
-  def self.unvote_tag(tag_id, post_id, user_id)
-    DB.transaction do 
-      post_tag = PostTag.exists(post_id, tag_id)
-      vote_tag = VoteTag.find_create(post_tag, user_id, -1)
-    end
-  end
 end

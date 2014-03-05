@@ -17,18 +17,15 @@ class VoteTag < Sequel::Model
     validates_integer :post_tag_id
   end
 
-  def self.find_create(post_tag, user_id, vote_unvote)
+  def self.create(post_tag, user_id, vote_unvote)
+    # 既に同じユーザが同じタグに投票したかチェックする
     vote_tag = VoteTag.where(post_tag_id: post_tag.id, user_id: user_id).first
-    unless vote_tag.nil? then
-      raise ArgumentError, "user(#{user_id}) was voted tag to post."
-    else
-      vote_tag = VoteTag.new(post_tag_id: post_tag.id, user_id: user_id, vote_unvote: vote_unvote, created_at: Time.now.to_s)
-      vote_tag.validate
-      unless vote_tag.valid? then
-        raise ArgumentError, vote_tag.errors.full_messages.join("<br>")
-      end
-      vote_tag.save
-    end
+    raise ArgumentError, "user(#{user_id}) was voted tag(#{post_tag.tag_id}) to post(#{post_tag.post_id})." unless vote_tag.nil?
+
+    vote_tag = VoteTag.new(post_tag_id: post_tag.id, user_id: user_id, vote_unvote: vote_unvote, created_at: Time.now.to_s)
+    vote_tag.validate
+    raise ArgumentError, vote_tag.errors.full_messages.join("<br>") unless vote_tag.valid?
+    vote_tag.save
     vote_tag
   end
 end

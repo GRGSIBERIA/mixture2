@@ -9,7 +9,7 @@ class PostTag < Sequel::Model
     
   end
 
-  def self.find_create(post_id, tag_id)
+  def self.create(post_id, tag_id)
     post_tag = PostTag.where(post_id: post_id, tag_id: tag_id).first
     if post_tag.nil? then
       # 存在しない場合は新しく作成
@@ -18,12 +18,6 @@ class PostTag < Sequel::Model
       raise ArgumentError, post_tag.errors.full_messages.join("<br>") unless post_tag.valid?      
       post_tag.save
     end
-    post_tag
-  end
-
-  def self.find_exists(post_id, tag_id)
-    post_tag = PostTag.where(tag_id: tag_id, post_id: post_id).first
-    raise ArgumentError, "Doesn't attached tag(#{tag_id}) to post(#{post_id})." if post_tag.nil?
     post_tag
   end
 end

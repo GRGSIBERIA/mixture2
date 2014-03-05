@@ -55,6 +55,7 @@ class Server < Sinatra::Base
   end
 
   get '/' do 
+    puts User.find(name: "yamada", id: 1).name
     slim :index
   end
   
