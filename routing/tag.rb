@@ -35,12 +35,15 @@ def routing_tag
       user_id = params[:user_id].to_i
       tag_id  = params[:tag_id].to_i
       post_id = params[:post_id].to_i
-      post_tag = PostTag.check_as_create(post_id, tag_id)
-      vote_tag = VoteTag.check_as_create(post_tag, user_id, vote_unvote)
+      DB.transaction do 
+        post_tag = PostTag.check_as_create(post_id, tag_id)
+        vote_tag = VoteTag.check_as_create(post_tag, user_id, vote_unvote)
+      end
     rescue ArgumentError => e
       halt 400, e.message
     rescue Sequel::ForeignKeyConstraintViolation => e 
-      
+      var = not_found_foreign_key(e)
+      halt 400, "#{var}(#{eval(var)}) is not found."
     end
     "succeeded"
   end

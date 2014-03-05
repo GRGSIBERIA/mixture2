@@ -4,6 +4,6 @@ class UserNotFound < StandardError; end
 
 class InvalidAPIKey < StandardError; end
 
-def extract_foreign_key(e)
-  e.message.scan(/FOREIGN KEY \(`\w+/)[0].split("(`")[1]
+def not_found_foreign_key(e)
+  var = e.message.scan(/FOREIGN KEY \(`\w+/)[0].split("(`")[1]
 end
