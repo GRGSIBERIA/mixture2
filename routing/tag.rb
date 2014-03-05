@@ -35,9 +35,12 @@ def routing_tag
       user_id = params[:user_id].to_i
       tag_id  = params[:tag_id].to_i
       post_id = params[:post_id].to_i
-      PostTag.check_as_create(post_id, tag_id)
+      post_tag = PostTag.check_as_create(post_id, tag_id)
+      vote_tag = VoteTag.check_as_create(post_tag, user_id, vote_unvote)
     rescue ArgumentError => e
       halt 400, e.message
+    rescue Sequel::ForeignKeyConstraintViolation => e 
+      
     end
     "succeeded"
   end
