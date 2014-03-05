@@ -6,7 +6,7 @@ def raise_helper(e)
     halt 400, e.message
   rescue Sequel::ForeignKeyConstraintViolation => e 
     var = not_found_foreign_key(e)
-    halt 400, "#{var}(#{eval(var)}) is not found."
+    halt 400, "#{var} is not found." #"#{var}(#{eval(var)}) is not found."
   end
 end
 

@@ -20,7 +20,6 @@ class VoteTag < Sequel::Model
   def self.check_as_create(post_tag_id, user_id, vote_unvote)
     # 既に同じユーザが同じタグに投票したかチェックする
     VoteTag.find_or_create(post_tag_id: post_tag_id, user_id: user_id) { |vote_tag| 
-      vote_tag = VoteTag.new(post_tag_id: post_tag_id, user_id: user_id, vote_unvote: vote_unvote, created_at: Time.now.to_s)
       vote_tag.post_tag_id = post_tag_id
       vote_tag.user_id = user_id
       vote_tag.vote_unvote = vote_unvote
