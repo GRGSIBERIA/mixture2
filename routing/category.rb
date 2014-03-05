@@ -6,12 +6,13 @@ def routing_category
   end
 
   post '/category/create' do 
-    category_name = params[:category_name]
+    category = nil
     begin
-      Category.create(name: category_name, created_at: Time.now.to_s)
+      category_name = params[:category_name]
+      category = Category.create(name: category_name, created_at: Time.now.to_s)
     rescue ArgumentError => e
       halt 400, e.message
     end
-    category_name
+    "succeeded #{category.id}"
   end
 end

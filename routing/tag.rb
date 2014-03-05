@@ -6,7 +6,7 @@ def raise_helper(e)
     halt 400, e.message
   rescue Sequel::ForeignKeyConstraintViolation => e 
     var = not_found_foreign_key(e)
-    halt 400, "#{var} is not found." #"#{var}(#{eval(var)}) is not found."
+    halt 400, e.message #{}"#{var} is not found." #"#{var}(#{eval(var)}) is not found."
   end
 end
 
@@ -16,13 +16,14 @@ def routing_tag
   end
 
   post '/tag/create' do 
-    tag_name = params[:tag_name]
+    tag = nil
     begin 
-      Tag.create(name: tag_name, category_id: 1, created_at: Time.now.to_s)
+      tag_name = params[:tag_name]
+      tag = Tag.create(name: tag_name, category_id: 1, created_at: Time.now.to_s)
     rescue Sequel::ValidationFailed => e
       halt 400, e.message
     end
-    tag_name
+    "succeeded #{tag.id}"
   end
 
   get '/tag/change/category_id' do 
@@ -63,10 +64,11 @@ def routing_tag
       post_tag_id = params[:post_tag_id].to_i
       user_id = params[:user_id].to_i
       vote_unvote = params[:vote_unvote].to_i
-      VoteTag.check_as_create(post_tag_id, user_id, vote_unvote)
+      post_tag = VoteTag.check_as_create(post_tag_id, user_id, vote_unvote)
     rescue => e
       raise_helper(e)
     end
+    "succeeded #{post_tag.id}"
   end
 
   get '/tag/vote' do 

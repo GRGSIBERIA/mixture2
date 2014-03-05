@@ -3,6 +3,7 @@ class PostTag < Sequel::Model
   plugin :validation_helpers
   many_to_one :posts
   many_to_one :tags
+  one_to_many :vote_tags
 
   def validate
     super
