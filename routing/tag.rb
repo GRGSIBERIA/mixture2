@@ -29,26 +29,21 @@ def routing_tag
     "succeeded"
   end
 
-  # あくまで投票するだけで，追加はできない
-  post '/tag/vote' do 
+  post '/tag/attach' do 
+    post_tag = nil
     begin
-      user_id = params[:user_id].to_i
-      tag_id  = params[:tag_id].to_i
-      post_id = params[:post_id].to_i
-      DB.transaction do 
-        post_tag = PostTag.check_as_create(post_id, tag_id)
-        vote_tag = VoteTag.check_as_create(post_tag, user_id, vote_unvote)
-      end
+      tag_id  = params[:tag_id]
+      post_id = params[:post_id]
+      post_tag = PostTag.check_as_create(post_id, tag_id)
     rescue ArgumentError => e
       halt 400, e.message
     rescue Sequel::ForeignKeyConstraintViolation => e 
       var = not_found_foreign_key(e)
       halt 400, "#{var}(#{eval(var)}) is not found."
     end
-    "succeeded"
   end
 
-  get '/tag/vote_tag' do 
-    slim :vote_tag
+  get '/tag/attach' do 
+    slim :attach_tag
   end
 end
