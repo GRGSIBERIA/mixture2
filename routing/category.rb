@@ -9,7 +9,7 @@ def routing_category
     category = nil
     begin
       category_name = params[:category_name]
-      category = Category.create(category_name)
+      category = Category.find_create(category_name)
     rescue ArgumentError => e
       halt 400, e.message
     end

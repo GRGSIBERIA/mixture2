@@ -8,6 +8,7 @@ Sequel.migration do
       foreign_key :category_id, :categories, null: false 
       index :tag_id
       index :category_id
+      unique [:tag_id, :category_id]
     end
     
   end
