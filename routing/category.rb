@@ -22,8 +22,7 @@ def routing_category
       category_id = params[:category_id].to_i
       tag_id = params[:tag_id].to_i
       category_tag = TagCategory.find_create(tag_id, category_id)
-    rescue 
-
+    
     end
     "succeeded #{category_tag.id}"
   end
