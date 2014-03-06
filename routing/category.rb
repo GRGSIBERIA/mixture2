@@ -15,4 +15,12 @@ def routing_category
     end
     "succeeded #{category.id}"
   end
+
+  post '/category/attach' do 
+
+  end
+
+  get '/category/attach' do 
+    slim :attach_category
+  end
 end
