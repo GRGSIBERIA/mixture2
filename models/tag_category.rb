@@ -8,7 +8,7 @@ class TagCategory < Sequel::Model
     super
   end
 
-  def self.find_create(tag_id, category_id)
+  def self.check_as_create(tag_id, category_id)
     TagCategory.find_or_create(tag_id: tag_id, category_id: category_id) { |c| 
       c.tag_id = tag_id
       c.category_id = category_id

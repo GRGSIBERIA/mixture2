@@ -21,13 +21,30 @@ def routing_category
     begin
       category_id = params[:category_id].to_i
       tag_id = params[:tag_id].to_i
-      category_tag = TagCategory.find_create(tag_id, category_id)
+      category_tag = TagCategory.check_as_create(tag_id, category_id)
+    rescue => e 
+      raise_helper(e, params)
     end
     "succeeded #{category_tag.id}"
   end
 
   get '/category/attach' do 
     slim :attach_category
+  end
+
+  post '/category/vote' do 
+    vote_category = nil
+    begin 
+      category_tag_id = params[:category_tag_id].to_i
+      user_id = params[:user_id].to_i
+    rescue ArgumentError => e 
+      raise_helper(e, params)
+    end
+    "succeeded #{vote_category.id}"
+  end
+
+  get '/category/vote' do 
+    slim :vote_category
   end
 
   get '/category/listing' do

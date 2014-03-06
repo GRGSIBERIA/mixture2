@@ -1,15 +1,4 @@
 #-*- encoding: utf-8
-def raise_helper(e)
-  begin
-    raise e, e.message
-  rescue ArgumentError => e
-    halt 400, e.message
-  rescue Sequel::ForeignKeyConstraintViolation => e 
-    var = not_found_foreign_key(e)
-    halt 400, e.message #{}"#{var} is not found." #"#{var}(#{eval(var)}) is not found."
-  end
-end
-
 def routing_tag
   get '/tag/new' do 
     slim :new_tag
@@ -19,8 +8,8 @@ def routing_tag
     tag = nil
     begin 
       tag_name = params[:tag_name]
-      tag = Tag.create(name: tag_name, category_id: 1, created_at: Time.now.to_s)
-    rescue Sequel::ValidationFailed => e
+      tag = Tag.find_create(tag_name)
+    rescue ArgumentError => e
       halt 400, e.message
     end
     "succeeded #{tag.id}"
@@ -33,7 +22,7 @@ def routing_tag
       post_id = params[:post_id]
       post_tag = PostTag.check_as_create(post_id, tag_id)
     rescue => e
-      raise_helper(e)
+      raise_helper(e, params)
     end
     "succeeded #{post_tag.id.to_s}"
   end
@@ -50,7 +39,7 @@ def routing_tag
       vote_unvote = params[:vote_unvote].to_i
       post_tag = VoteTag.check_as_create(post_tag_id, user_id, vote_unvote)
     rescue => e
-      raise_helper(e)
+      raise_helper(e, params)
     end
     "succeeded #{post_tag.id}"
   end
