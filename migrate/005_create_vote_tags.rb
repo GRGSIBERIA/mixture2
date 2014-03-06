@@ -3,7 +3,7 @@ Sequel.migration do
     
     create_table(:vote_tags, :ignore_index_errors=>true) do
       primary_key :id
-      Integer :vote_unvote, null: false
+      Integer :vote, null: false
       DateTime :created_at
       
       foreign_key :user_id,     :users,     null: false

@@ -6,6 +6,11 @@ class TagCategory < Sequel::Model
 
   def validate
     super
+
+    validates_presence [:tag_id, :category_id]
+    
+    validates_integer :tag_id
+    validates_integer :category_id
   end
 
   def self.check_as_create(tag_id, category_id)

@@ -35,8 +35,10 @@ def routing_category
   post '/category/vote' do 
     vote_category = nil
     begin 
-      category_tag_id = params[:category_tag_id].to_i
+      tag_category_id = params[:tag_category_id].to_i
       user_id = params[:user_id].to_i
+      vote = params[:vote].to_i
+      vote_category = VoteCategory.check_as_create(tag_category_id, user_id, vote)
     rescue ArgumentError => e 
       raise_helper(e, params)
     end
