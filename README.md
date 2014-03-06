@@ -21,7 +21,12 @@ mixtureはすべての機能をWeb APIによって広く提供しています．
 # Description
 Mixture is the public domain files repository.
 
-Users able to upload files that is the public domain (take off second creation).
-Application developers will be able to access to mixture API for various applications.
+Users are able to upload files that is the public domain (take off second creation).
+Application developers will be able to access to common files in mixture for various applications.
+And, users are able to tag to files that is unlimited.
+Each tag has many specific property.
+Mixture categorised each specific property for each tag.
+Because, mixture is able to find tags for posts that have categories from some specific property.
+
 
 誰か英訳して……
