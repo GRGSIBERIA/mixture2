@@ -31,13 +31,12 @@ class User < Sequel::Model
   end
 
   def self.add(params)
-    User.new({
+    user = User.new({
       name:     params[:user_name],
       nickname: params[:nickname],
       password: Crypt.encrypt_password(params[:password]),
       open_key: "hogehoge",
-      created_at: Time.now.to_s,
-      updated_at: Time.now.to_s
+      created_at: Time.now.to_s
       })
   end
 

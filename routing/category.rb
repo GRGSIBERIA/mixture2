@@ -22,7 +22,6 @@ def routing_category
       category_id = params[:category_id].to_i
       tag_id = params[:tag_id].to_i
       category_tag = TagCategory.find_create(tag_id, category_id)
-    
     end
     "succeeded #{category_tag.id}"
   end
@@ -40,7 +39,7 @@ def routing_category
     Category.listing(page_num).to_json
   end
 
-  get '/category/listing/:order/:page_num' do 
+  get '/category/listing/:page_num/:order' do 
     result = nil 
     begin
       page_num = params[:page_num].to_i
