@@ -35,7 +35,7 @@ class User < Sequel::Model
       name:     params[:user_name],
       nickname: params[:nickname],
       password: Crypt.encrypt_password(params[:password]),
-      open_key: "hogehoge"
+      open_key: "hogehoge",
       created_at: Time.now.to_s,
       updated_at: Time.now.to_s
       })
