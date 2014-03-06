@@ -26,22 +26,6 @@ def routing_tag
     "succeeded #{tag.id}"
   end
 
-  get '/tag/change/category_id' do 
-    slim :change_category
-  end
-
-  post '/tag/change/category' do 
-    tag = nil
-    begin
-      tag_id = params[:tag_id].to_i
-      category_name = params[:category_name]
-      tag = Tag.change_category(tag_id, category_name)
-    rescue ArgumentError => e
-      halt 400, e.message
-    end
-    "succeeded #{tag.category_id}"
-  end
-
   post '/tag/attach' do 
     post_tag = nil
     begin
