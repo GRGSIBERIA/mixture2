@@ -6,7 +6,7 @@ Sequel.migration do
       Integer :vote, null: false
       DateTime :created_at
       
-      foreign_key :user_id,     :users,     null: false
+      foreign_key :user_id,         :users,          null: false
       foreign_key :tag_category_id, :tag_categories, null: false
       unique [:user_id, :tag_category_id]
       index :tag_category
