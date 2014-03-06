@@ -6,8 +6,6 @@ Sequel.migration do
       Integer :count, :default=>0, :null=>false
       DateTime :created_at
       
-      foreign_key :tag_id, :tags, null: false
-      index :tag_id
       index :name, unique: true
     end
     
