@@ -1,7 +1,8 @@
 #-*- encoding: utf-8
 class TagCategory < Sequel::Model
   plugin :validation_helpers
-  one_to_many :tag_categories
+  one_to_many :tags
+  one_to_many :categories
 
   def validate
     super
