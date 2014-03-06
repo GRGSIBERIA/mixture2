@@ -16,14 +16,6 @@ class Category < Sequel::Model
     errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
   end
 
-  def self.tags(category_id, page_num=0)
-    ofst = page_num * NUMBER_OF_WORDS_PER_PAGE
-    Tag.where(category_id: category_id.to_i)
-      .order(Sequel.asc(:name))
-      .offset(ofst)
-      .limit(NUMBER_OF_WORDS_PER_PAGE)
-  end
-
   def self.find_create(category_name)
     category = Category.find_or_create(name: category_name) {|c|
       c.name = category_name
