@@ -65,6 +65,7 @@ class Server < Sinatra::Base
   routing_post
   routing_tag
   routing_category
+  rooting_list
 end
 
 
