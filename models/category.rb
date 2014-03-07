@@ -1,4 +1,6 @@
 #-*- encoding: utf-8
+require './helpers/model.rb'
+
 class Category < Sequel::Model
   include ListingHelper
   plugin :validation_helpers
