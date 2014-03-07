@@ -20,11 +20,7 @@ def routing_user
     slim :new_user
   end
 
-  get '/user/succeed' do 
-    slim :create_user_succeed
-  end
-
-  post '/user/create' do 
+  post '/user/new' do 
     @user = User.add(params)
 
     @user.validate
@@ -38,6 +34,10 @@ def routing_user
       session[:apikey] = Crypt.make_apikey(@user)
       redirect '/user/succeed'
     end
+  end
+
+  get '/user/succeed' do 
+    slim :create_user_succeed
   end
 
   get '/user/:id' do 
