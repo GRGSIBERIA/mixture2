@@ -65,7 +65,7 @@ def routing_category
       order = params[:order]
       result = Category.listing(page_num, order)
     rescue ArgumentError => e 
-      halt 400, e.message
+      raise_helper(e, params)
     end
     result.to_json
   end

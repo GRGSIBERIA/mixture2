@@ -47,6 +47,7 @@ require './routing/user.rb'
 require './routing/post.rb'
 require './routing/category.rb'
 require './routing/tag.rb'
+require './rooting/list.rb'
 
 class Server < Sinatra::Base
   configure :development do
