@@ -48,26 +48,4 @@ def routing_category
   get '/category/vote' do 
     slim :vote_category
   end
-
-  get '/category/list' do
-    Category.listing.to_json
-  end
-
-  get '/category/list/:page_num' do
-    page_num = params[:page_num].to_i 
-    Category.listing(page_num).to_json
-  end
-
-  get '/category/list/:page_num/:order' do 
-    result = nil 
-    begin
-      page_num = params[:page_num].to_i
-      order = params[:order]
-      result = Category.listing(page_num, order)
-    rescue ArgumentError => e 
-      raise_helper(e, params)
-    end
-    result.to_json
-  end
-
 end
