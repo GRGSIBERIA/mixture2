@@ -10,7 +10,7 @@ def rooting_list
 
   get '/list/category/:page_num' do
     page_num = params[:page_num].to_i 
-    Category.listing(page_num).to_json
+    Category.listing(:categories, :words, page_num).to_json
   end
 
   get '/list/category/:page_num/:order' do 
@@ -18,7 +18,7 @@ def rooting_list
     begin
       page_num = params[:page_num].to_i
       order = params[:order]
-      result = Category.listing(page_num, order)
+      result = Category.listing(:categories, :words, page_num, order)
     rescue ArgumentError => e 
       raise_helper(e, params)
     end
