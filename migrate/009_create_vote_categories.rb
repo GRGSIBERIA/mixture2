@@ -9,7 +9,7 @@ Sequel.migration do
       foreign_key :user_id,         :users,          null: false
       foreign_key :tag_category_id, :tag_categories, null: false
       unique [:user_id, :tag_category_id]
-      index :tag_category
+      index :tag_category_id
     end
   end
 end
