@@ -13,27 +13,27 @@ def redirect_url(host_url, user_name)
 end
 
 def routing_post
-  get '/post/listing/new' do 
+  get '/post/list/new' do 
     Post.order_by_new.to_json
   end
 
-  get '/post/listing/new/:page_num' do 
+  get '/post/list/new/:page_num' do 
     Post.order_by_new(params[:page_num]).to_json
   end
 
-  get '/post/listing/old' do 
+  get '/post/list/old' do 
     Post.order_by_old.to_json
   end
 
-  get '/post/listing/old/:page_num' do 
+  get '/post/list/old/:page_num' do 
     Post.order_by_old(params[:page_num]).to_json
   end
 
-  get '/post/listing/:user_id/:page_num' do 
+  get '/post/list/:user_id/:page_num' do 
     User.posts(params[:user_id], params[:page_num]).to_json
   end
 
-  get '/post/listing/:user_id' do 
+  get '/post/list/:user_id' do 
     User.posts(params[:user_id]).to_json
   end  
   

@@ -49,16 +49,16 @@ def routing_category
     slim :vote_category
   end
 
-  get '/category/listing' do
+  get '/category/list' do
     Category.listing.to_json
   end
 
-  get '/category/listing/:page_num' do
+  get '/category/list/:page_num' do
     page_num = params[:page_num].to_i 
     Category.listing(page_num).to_json
   end
 
-  get '/category/listing/:page_num/:order' do 
+  get '/category/list/:page_num/:order' do 
     result = nil 
     begin
       page_num = params[:page_num].to_i
