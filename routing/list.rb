@@ -28,27 +28,46 @@ def rooting_list
   ##################################################
   # Post
   ##################################################
-  get '/post/list/new' do 
+  get '/list/post/new' do 
     Post.order_by_new.to_json
   end
 
-  get '/post/list/new/:page_num' do 
+  get '/list/post/new/:page_num' do 
     Post.order_by_new(params[:page_num]).to_json
   end
 
-  get '/post/list/old' do 
+  get '/list/post/old' do 
     Post.order_by_old.to_json
   end
 
-  get '/post/list/old/:page_num' do 
+  get '/list/post/old/:page_num' do 
     Post.order_by_old(params[:page_num]).to_json
   end
 
-  get '/post/list/:user_id/:page_num' do 
+  get '/list/post/:user_id/:page_num' do 
     User.posts(params[:user_id], params[:page_num]).to_json
   end
 
-  get '/post/list/:user_id' do 
+  get '/list/post/:user_id' do 
     User.posts(params[:user_id]).to_json
-  end  
+  end
+
+  ##################################################
+  # User
+  ##################################################
+  get '/user/list/new' do 
+    User.order_by_new.to_json
+  end
+
+  get '/user/list/new/:page_num' do 
+    User.order_by_new(params[:page_num]).to_json
+  end
+
+  get '/user/list/old' do 
+    User.order_by_old.to_json
+  end
+
+  get '/user/list/old/:page_num' do 
+    User.order_by_old(params[:page_num]).to_json
+  end
 end

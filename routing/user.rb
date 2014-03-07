@@ -1,21 +1,5 @@
 #-*- encoding: utf-8
 def routing_user
-  get '/user/list/new' do 
-    User.order_by_new.to_json
-  end
-
-  get '/user/list/new/:page_num' do 
-    User.order_by_new(params[:page_num]).to_json
-  end
-
-  get '/user/list/old' do 
-    User.order_by_old.to_json
-  end
-
-  get '/user/list/old/:page_num' do 
-    User.order_by_old(params[:page_num]).to_json
-  end
-
   get '/user/new' do 
     slim :new_user
   end
