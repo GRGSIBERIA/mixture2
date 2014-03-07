@@ -5,7 +5,7 @@ def routing_category
     slim :new_category
   end
 
-  post '/category/create' do 
+  post '/category/new' do 
     category = nil
     begin
       category_name = params[:category_name]
