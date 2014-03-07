@@ -27,16 +27,6 @@ class Category < Sequel::Model
   end
 
   def self.listing(page_num=0, order="desc")
-    Category.listing_basic(:category, :words, page_num, order)
-  #  offset = NUMBER_OF_WORDS_PER_PAGE * page_num
-  #  order_case = nil
-  #  case order
-  #  when "desc"
-  #    order_case = Sequel.desc(:id)
-  #  when "asc"
-  #    order_case = Sequel.asc(:id)
-  #  end
-  #  raise ArgumentError, "order(#{order}) is invalid parameter." if order_case.nil?
-  #  DB[:categories].order(order_case).offset(offset).limit(NUMBER_OF_WORDS_PER_PAGE)
+    ListingHelper.listing_basic(:categories, :words, page_num, order)
   end
 end

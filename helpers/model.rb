@@ -41,4 +41,6 @@ module ListingHelper
 
     DB[db].order(order_case).offset(offset).limit(number_of_what_pp)
   end
+
+  module_function :listing_basic
 end
