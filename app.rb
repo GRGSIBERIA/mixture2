@@ -30,6 +30,8 @@ require './helpers/crypt.rb'
 require './helpers/exception.rb'
 DB = Connector.mysql # Modelを読み込むより先に実行する必要がある
 
+require './helpers/model.rb'
+
 require './models/user.rb'
 require './models/post.rb'
 require './models/tag.rb'
@@ -40,7 +42,6 @@ require './models/tag_category.rb'
 require './models/vote_category.rb'
 
 require './helpers/verify.rb' # DBを利用するためモデルの後に読み込む
-require './helpers/model.rb'
 Sequel::Model.plugin :json_serializer
 
 require './routing/user.rb'
