@@ -21,20 +21,8 @@ class Post < Sequel::Model
     post.save
   end
 
-  def self.call_order_query(page_num, order_by)
-    offset = page_num.to_i * NUMBER_OF_CONTENTS_PER_PAGE
-    Post.select(:id, :file_hash, :extension, :created_at)
-      .order(order_by)
-      .offset(offset)
-      .limit(NUMBER_OF_CONTENTS_PER_PAGE)
-  end
-
-  def self.order_by_old(page_num=0)
-    Post.call_order_query(page_num, Sequel.asc(:id))
-  end
-
-  def self.order_by_new(page_num=0)
-    Post.call_order_query(page_num, Sequel.desc(:id))
+  def self.listing(page_num=0, order="desc")
+    ListingHelper.listing_basic(:posts, :contents, page_num, order)
   end
 
   def self.tags(id, page_num=0)

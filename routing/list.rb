@@ -28,28 +28,25 @@ def rooting_list
   ##################################################
   # Post
   ##################################################
-  get '/list/post/new' do 
-    Post.order_by_new.to_json
+  get '/list/post' do 
+    Post.listing.to_json
   end
 
-  get '/list/post/new/:page_num' do 
-    Post.order_by_new(params[:page_num]).to_json
+  get '/list/post/:page_num' do 
+    page_num = params[:page_num].to_i
+    Post.listing(page_num).to_json
   end
 
-  get '/list/post/old' do 
-    Post.order_by_old.to_json
-  end
-
-  get '/list/post/old/:page_num' do 
-    Post.order_by_old(params[:page_num]).to_json
-  end
-
-  get '/list/post/:user_id/:page_num' do 
-    User.posts(params[:user_id], params[:page_num]).to_json
-  end
-
-  get '/list/post/:user_id' do 
-    User.posts(params[:user_id]).to_json
+  get '/list/post/:page_num/:order' do 
+    result = nil 
+    begin 
+      page_num = params[:page_num].to_i
+      order = params[:order]
+      result = Category.listing(page_num, order)
+    rescue ArgumentError => e 
+      raise_helper(e, params)
+    end
+    result.to_json
   end
 
   ##################################################
