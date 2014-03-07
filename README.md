@@ -18,15 +18,11 @@ mixtureはすべての機能をWeb APIによって広く提供しています．
 アプリケーション開発者は独自のアイディアをmixtureで試すことが可能となります．
 アプリケーション開発はユーザ集めやコンテンツ集めで頭を悩ませる必要がありません！
 
-# Description
-Mixture is the public domain files repository.
+## タグとカテゴリ
+一般的なWebサービスでは，投稿されたコンテンツに対し，自由にタグ付けを行うことができます．タグ付けを行うことにより，ユーザはあるキーワードを含んだタグを検索することができるようになります．
 
-Users are able to upload files that is the public domain (take off second creation).
-Application developers will be able to access to common files in mixture for various applications.
-And, users are able to tag to files that is unlimited.
-Each tag has many specific property.
-Mixture categorised each specific property for each tag.
-Because, mixture is able to find tags for posts that have categories from some specific property.
+しかし，検索は基本的に完全一致か部分一致が前提にあり，例えば，意味的に似通ったタグで広く検索したい場合，もしくは抽象的な概念で検索を行いたい場合において，単なるタグ付けだけでは不十分です．
 
+そこで，mixtureでは，タグの検索の利便性を向上させるために，タグをカテゴライズすることが可能なシステムにしました．例えば，「ドラえもん（doraemon）」のようなタグであれば，「原作(copyright)」と「キャラクター(character)」の両方でカテゴライズできます．
 
-誰か英訳して……
+これにより，今までは完全一致もしくは部分一致が限界でしたが，カテゴライズできるようになることで，「ドラえもん」を含み，なおかつ「キャラクター」にカテゴライズされたタグを含んだコンテンツのような，複雑で曖昧な検索が可能となります．
