@@ -1,70 +1,43 @@
 #-*- encoding: utf-8
 
 def rooting_list
-  ##################################################
-  # Category
-  ##################################################
-  get '/list/category' do
-    Category.listing.to_json
+  get '/list/category' do 
+    ListingHelper.basic_three_routing(Category, :none, params)
   end
 
-  get '/list/category/:page_num' do
-    page_num = params[:page_num].to_i 
-    Category.listing(page_num).to_json
+  get '/list/category/:page_num' do 
+    ListingHelper.basic_three_routing(Category, :page_num, params)
   end
 
   get '/list/category/:page_num/:order' do 
-    result = nil 
-    begin
-      page_num = params[:page_num].to_i
-      order = params[:order]
-      result = Category.listing(page_num, order)
-    rescue ArgumentError => e 
-      raise_helper(e, params)
-    end
-    result.to_json
+    ListingHelper.basic_three_routing(Category, :order, params)
   end
 
-  ##################################################
-  # Post
-  ##################################################
+
+
   get '/list/post' do 
-    Post.listing.to_json
+    ListingHelper.basic_three_routing(Post, :none, params)
   end
 
   get '/list/post/:page_num' do 
-    page_num = params[:page_num].to_i
-    Post.listing(page_num).to_json
+    ListingHelper.basic_three_routing(Post, :page_num, params)
   end
 
   get '/list/post/:page_num/:order' do 
-    result = nil 
-    begin 
-      page_num = params[:page_num].to_i
-      order = params[:order]
-      result = Category.listing(page_num, order)
-    rescue ArgumentError => e 
-      raise_helper(e, params)
-    end
-    result.to_json
+    ListingHelper.basic_three_routing(Post, :order, params)
   end
 
-  ##################################################
-  # User
-  ##################################################
-  get '/user/list/new' do 
-    User.order_by_new.to_json
+
+  
+  get '/list/user' do 
+    ListingHelper.basic_three_routing(User, :none, params)
   end
 
-  get '/user/list/new/:page_num' do 
-    User.order_by_new(params[:page_num]).to_json
+  get '/list/user/:page_num' do 
+    ListingHelper.basic_three_routing(User, :page_num, params)
   end
 
-  get '/user/list/old' do 
-    User.order_by_old.to_json
-  end
-
-  get '/user/list/old/:page_num' do 
-    User.order_by_old(params[:page_num]).to_json
+  get '/list/user/:page_num/:order' do 
+    ListingHelper.basic_three_routing(User, :order, params)
   end
 end

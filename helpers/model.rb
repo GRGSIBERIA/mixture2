@@ -42,5 +42,31 @@ module ListingHelper
     DB[db].order(order_case).offset(offset).limit(number_of_what_pp)
   end
 
+  def basic_three_routing(class_name, type, params)
+    route = class_name.to_s.downcase
+
+    # params渡せないからしょうがない
+    case type
+    when :none
+      return class_name.listing.to_json
+
+    when :page_num
+      page_num = params[:page_num].to_i 
+      return class_name.listing(page_num).to_json
+
+    when :order
+      result = nil 
+      begin
+        page_num = params[:page_num].to_i
+        order = params[:order]
+        result = class_name.listing(page_num, order)
+      rescue ArgumentError => e 
+        raise_helper(e, params)
+      end
+      return result.to_json
+    end
+  end
+
+  module_function :basic_three_routing
   module_function :listing_basic
 end
