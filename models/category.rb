@@ -17,13 +17,7 @@ class Category < Sequel::Model
   end
 
   def self.find_create(category_name)
-    category = Category.find_or_create(name: category_name) {|c|
-      c[:name] = category_name
-      c[:created_at] = Time.now.to_s
-      c.validate 
-      raise ArgumentError, c.errors.full_messages.join("<br>") unless c.valid?
-    }
-    category
+    Model.find_or_create(Category, {name: category_name}, {name: category_name, created_at: Time.now.to_s})
   end
 
   def self.listing(page_num=0, order="desc")

@@ -12,7 +12,17 @@ module Model
     end
   end
 
+  def find_or_create(class_name, find, params)
+    class_name.find_or_create(find) {|inst|
+      params.each do |k, v|
+        inst[k] = v
+      end
+      inst.validate 
+      raise ArgumentError, inst.errors.full_messages.join("<br>") unless inst.valid?
+    }
+  end
 
+  module_function :find_or_create
   module_function :exists
   module_function :save_to_validate
 end
