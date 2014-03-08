@@ -7,7 +7,10 @@ class PostTag < Sequel::Model
 
   def validate
     super
-    
+    validates_of_presence [:post_id, :tag_id]
+
+    validates_integer :post_id
+    validates_integer :tag_id
   end
 
   def self.check_as_create(post_id, tag_id)
