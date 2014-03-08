@@ -12,6 +12,7 @@ module Model
     end
   end
 
+
   module_function :exists
   module_function :save_to_validate
 end

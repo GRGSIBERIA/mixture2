@@ -18,8 +18,8 @@ class Category < Sequel::Model
 
   def self.find_create(category_name)
     category = Category.find_or_create(name: category_name) {|c|
-      c.name = category_name
-      c.created_at = Time.now.to_s
+      c[:name] = category_name
+      c[:created_at] = Time.now.to_s
       c.validate 
       raise ArgumentError, c.errors.full_messages.join("<br>") unless c.valid?
     }

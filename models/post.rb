@@ -9,7 +9,7 @@ class Post < Sequel::Model
 
   def validate
     super
-
+    validates_of_presence [:user_id, :file_hash, :extension, :created_at]
   end
 
   def self.create(user_id, file_hash, extension)
@@ -18,7 +18,10 @@ class Post < Sequel::Model
       file_hash: file_hash, 
       extension: extension,
       created_at: Time.now.to_s)
+    post.validate
+    raise ArgumentError, post.errors.full_messages unless post.valid?
     post.save
+    post
   end
 
   def self.listing(page_num=0, order="desc")

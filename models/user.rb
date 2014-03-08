@@ -26,10 +26,6 @@ class User < Sequel::Model
     errors.add(:nickname, 'is the invalid word') if INVALID_WORDS.include?(name)
   end
 
-  def self.exists_id(user_id)
-    Model.exists(User, :id, user_id)
-  end
-
   def self.add(params)
     user = User.new({
       name:     params[:user_name],
