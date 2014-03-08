@@ -17,7 +17,7 @@ class VoteCategory < Sequel::Model
   end
 
   def self.check_as_create(tag_category_id, user_id, vote)
-    Model.find_or_create(VoteTag, 
+    Model.find_or_create(VoteCategory, 
       {tag_category_id: tag_category_id, user_id: user_id}, 
       {tag_category_id: tag_category_id, user_id: user_id, created_at: Time.now.to_s, vote: vote})
   end

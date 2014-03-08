@@ -17,13 +17,8 @@ class VoteTag < Sequel::Model
   end
 
   def self.check_as_create(post_tag_id, user_id, vote)
-    # 既に同じユーザが同じタグに投票したかチェックする
-    VoteTag.find_or_create(post_tag_id: post_tag_id, user_id: user_id) { |vote_tag| 
-      vote_tag.post_tag_id = post_tag_id
-      vote_tag.user_id = user_id
-      vote_tag.vote = vote
-      vote_tag.validate
-      raise ArgumentError, vote_tag.errors.full_messages.join("<br>") unless vote_tag.valid?
-    }
+    Model.find_or_create(VoteTag,
+      {post_tag_id: post_tag_id, user_id: user_id},
+      {post_tag_id: post_tag_id, user_id: user_id, vote: vote, created_at: Time.now.to_s})
   end
 end
