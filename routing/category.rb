@@ -39,7 +39,7 @@ def routing_category
       user_id = params[:user_id].to_i
       vote = params[:vote].to_i
       vote_category = VoteCategory.check_as_create(tag_category_id, user_id, vote)
-    rescue ArgumentError => e 
+    rescue => e 
       raise_helper(e, params)
     end
     "succeeded #{vote_category.id}"
