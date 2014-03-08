@@ -14,12 +14,8 @@ class TagCategory < Sequel::Model
   end
 
   def self.check_as_create(tag_id, category_id)
-    TagCategory.find_or_create(tag_id: tag_id, category_id: category_id) { |c| 
-      c.tag_id = tag_id
-      c.category_id = category_id
-      c.created_at = Time.now.to_s
-      c.validate 
-      raise ArgumentError, c.errors.full_messages.join("<br>") unless c.valid?
-    }
+    Model.find_or_create(TagCategory, 
+      {tag_id: tag_id, category_id: category_id}, 
+      {tag_id: tag_id, category_id: category_id, created_at: Time.now.to_s})
   end
 end

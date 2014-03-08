@@ -17,13 +17,8 @@ class VoteCategory < Sequel::Model
   end
 
   def self.check_as_create(tag_category_id, user_id, vote)
-    # 既に同じユーザが同じタグに投票したかチェックする
-    VoteTag.find_or_create(tag_category_id: tag_category_id, user_id: user_id) { |vote_category| 
-      vote_category.tag_category_id = tag_category_id
-      vote_category.user_id = user_id
-      vote_category.vote = vote
-      vote_category.validate
-      raise ArgumentError, vote_category.errors.full_messages.join("<br>") unless vote_category.valid?
-    }
+    Model.find_or_create(VoteTag, 
+      {tag_category_id: tag_category_id, user_id: user_id}, 
+      {tag_category_id: tag_category_id, user_id: user_id, created_at: Time.now.to_s, vote: vote})
   end
 end
