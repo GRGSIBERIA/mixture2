@@ -34,16 +34,8 @@ class Crypt
     key == decrypted
   end
 
-  def self.encrypt_password(password)
-    encrypt_stretch(password, PASSWORD_SALT)
-  end
-
   def self.check_password(password, decrypted)
     check_decrypt(password, decrypted, PASSWORD_SALT)
-  end
-
-  def self.encrypt_email(email)
-    encrypt_stretch(email, EMAIL_SALT)
   end
 
   def self.check_email(email, decrypted)
