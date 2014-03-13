@@ -1,4 +1,5 @@
 #-*- encoding: utf-8
+require 'digest/sha2'
 require './helpers/crypt.rb'
 
 class Developer < Sequel::Model
@@ -17,12 +18,18 @@ class Developer < Sequel::Model
     validates_string  :consumer_key
   end
 
+  def make_developer_key(key, salt)
+    enc = Crypt.encrypt_stretch(key, salt)
+    Digest::SHA256.hexdigest(enc)
+  end
+
   def entry(user_id)
     user = User.find(user_id)
     raise ArgumentError, "user_id(#{user_id}) is not found" if user.nil?
     Developer.new(
       user_id: user_id,
-      
-      )
+      secret_key:   make_developer_key(user.password, SECRET_SALT),
+      consumer_key: make_developer_key(user.email, CONSUMER_SALT),
+      created_at: Time.now.to_s)
   end
 end
