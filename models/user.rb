@@ -14,11 +14,13 @@ class User < Sequel::Model
     super
     validates_presence [:name, :email, :password]
 
-    validates_length_range 4..80, :name
+    validates_length_range 4..128, :name
 
     validates_unique :name
+    validates_unique :email
 
     validates_format(/\A\w+\z/, :name)
+    validates_format(/\A[a-zA-Z0-9_\.\-]+@[A-Za-z0-9_\.\-]+\.[A-Za-z0-9_\.\-]+\z/, :email)
 
     errors.add(:name, 'is the invalid word') if INVALID_WORDS.include?(name)
   end
