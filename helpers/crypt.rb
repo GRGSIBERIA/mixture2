@@ -20,23 +20,33 @@ class Crypt
     dec.update(bin) + dec.final
   end
 
-  def self.encrypt_password(password)
-    digest = password + PASSWORD_SALT
+  def self.encrypt_stretch(key, salt)
+    digest = key + salt
     (0..4).each do |x|
-      digest = Digest::SHA256.hexdigest(digest + PASSWORD_SALT)
+      digest = Digest::SHA256.hexdigest(key + salt)
     end
-    password = encrypt(digest, PASSWORD_SALT)
+    encrypt(digest, salt)
+  end
+
+  def self.check_decrypt(key, decrypted, salt)
+    key = encrypt_stretch(key, salt)
+    decrypted = decrypt(decrypted, salt)
+    key == decrypted
+  end
+
+  def self.encrypt_password(password)
+    encrypt_stretch(password, PASSWORD_SALT)
   end
 
   def self.check_password(password, decrypted)
-    password = encrypt_password(password)
-    decrypted = decrypt(decrypted, PASSWORD_SALT)
-    password == decrypted
+    check_decrypt(password, decrypted, PASSWORD_SALT)
   end
 
-  def self.make_apikey(user)
-    user_name = user.name
-    password = user.password
-    key_base = Digest::SHA256.hexdigest(password + user_name)
+  def self.encrypt_email(email)
+    encrypt_stretch(email, EMAIL_SALT)
+  end
+
+  def self.check_email(email, decrypted)
+    check_decrypt(email, decrypted, EMAIL_SALT)
   end
 end
