@@ -6,13 +6,13 @@ def routing_user
 
   post '/user/new' do 
     @user = nil
+    @name = params[:name]
+    @email = params[:email]
     begin
-      name = params[:name]
       password = params[:password]
-      email = params[:email]
-      @user = User.check_as_create(name, password, email)
+      @user = User.check_as_create(@name, password, @email)
     rescue ArgumentError => e 
-      @error_messages
+      @error_messages = e.message
       slim :new_user
     end
     slim :create_user_succeed

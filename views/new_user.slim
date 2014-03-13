@@ -3,20 +3,19 @@ html
   head
     meta charset="UTF-8"
   body
-    - unless @errors.nil?
-      - for message in @errors.full_messages
-        font size="2" color="red"
-          p
-            = message
+    - unless @error_messages.nil?
+      font size="2" color="red"
+        p
+          = @error_messages
             
 
     form method="post" action="/user/new"
       p
         strong User Name
-        input type="text" name="user_name" value="#{@username}"
+        input type="text" name="name" value="#{@name}"
       p
-        strong Nickname
-        input type="text" name="nickname" value="#{@nickname}"
+        strong Email
+        input type="text" name="email" value="#{@email}"
       p
         strong Password
         input type="password" name="password"
