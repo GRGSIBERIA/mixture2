@@ -21,6 +21,10 @@ class User < Sequel::Model
 
     validates_format(/\A\w+\z/, :name)
     validates_format(/\A[a-zA-Z0-9_\.\-]+@[A-Za-z0-9_\.\-]+\.[A-Za-z0-9_\.\-]+\z/, :email)
+    
+    validates_string :name
+    validates_string :email
+    validates_string :password
 
     errors.add(:name, 'is the invalid word') if INVALID_WORDS.include?(name)
   end
