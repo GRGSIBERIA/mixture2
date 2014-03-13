@@ -35,16 +35,6 @@ class User < Sequel::Model
     user
   end
 
-  def self.add(params)
-    user = User.new({
-      name:     params[:user_name],
-      nickname: params[:nickname],
-      password: Crypt.encrypt_password(params[:password]),
-      open_key: "hogehoge",
-      created_at: Time.now.to_s
-      })
-  end
-
   def self.listing(page_num=0, order="desc")
     ListingHelper.listing_basic(:users, :words, page_num, order)
   end
