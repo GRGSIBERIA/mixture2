@@ -6,6 +6,7 @@ Sequel.migration do
       String :name, :size=>128, :null=>false
       String :email, :size=>384, :null=>false
       String :password, :size=>128,  :null=>false
+      Integer :retired, :default=>0
       DateTime :created_at
       
       index :name,  unique: true
