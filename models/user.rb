@@ -3,12 +3,12 @@ require 'digest/sha2'
 require './helpers/crypt.rb'
 
 class User < Sequel::Model
-  include Crypt
   plugin :validation_helpers
   one_to_many :posts
   one_to_many :vote_tags
   one_to_many :vote_categories
   one_to_many :post_pushes
+  one_to_one  :developers
 
   def validate
     super
