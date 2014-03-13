@@ -26,6 +26,10 @@ class User < Sequel::Model
     errors.add(:nickname, 'is the invalid word') if INVALID_WORDS.include?(name)
   end
 
+  def self.check_as_create(name, email, password)
+
+  end
+
   def self.add(params)
     user = User.new({
       name:     params[:user_name],
