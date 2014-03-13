@@ -21,7 +21,7 @@ class User < Sequel::Model
 
     validates_format(/\A\w+\z/, :name)
     validates_format(/\A[a-zA-Z0-9_\.\-]+@[A-Za-z0-9_\.\-]+\.[A-Za-z0-9_\.\-]+\z/, :email)
-    
+
     validates_string :name
     validates_string :email
     validates_string :password
@@ -32,8 +32,9 @@ class User < Sequel::Model
   def self.check_as_create(name, email, password)
     user = User.new(
       name: name,
-      password: Model.encrypt_password(password),
-      email:    Model.encrypt_email(email))
+      password: Crypt.encrypt_stretch(password, PASSWORD_SALT),
+      email:    Crypt.encrypt_stretch(email, EMAIL_SALT),
+      created_at: Time.now.to_s)
     user.validate 
     raise ArgumentError, user.errors.full_messages.join("<br>") unless user.valid?
     user
