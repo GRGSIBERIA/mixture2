@@ -12,22 +12,25 @@ class User < Sequel::Model
 
   def validate
     super
-    validates_presence [:name, :password, :nickname]
+    validates_presence [:name, :email, :password]
 
     validates_length_range 4..80, :name
-    validates_length_range 4..80, :nickname
 
     validates_unique :name
 
     validates_format(/\A\w+\z/, :name)
-    validates_format(/\A[\w#{Moji.zen}]+\z/, :nickname)
 
     errors.add(:name, 'is the invalid word') if INVALID_WORDS.include?(name)
-    errors.add(:nickname, 'is the invalid word') if INVALID_WORDS.include?(name)
   end
 
   def self.check_as_create(name, email, password)
-
+    user = User.new(
+      name: name,
+      password: Model.encrypt_password(password),
+      email:    Model.encrypt_email(email))
+    user.validate 
+    raise ArgumentError, user.errors.full_messages.join("<br>") unless user.valid?
+    user
   end
 
   def self.add(params)
