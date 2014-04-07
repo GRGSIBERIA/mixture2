@@ -45,6 +45,12 @@ function getContentType(extension) {
       case "zip":
         content_type = "application/zip";
         break;
+      case "vmd":
+        content_type = "application/octet-stream";
+        break;
+      default:
+        content_type = "text/plain";
+        break;
     }
   }
   return content_type;
