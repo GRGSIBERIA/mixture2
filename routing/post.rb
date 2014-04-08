@@ -1,4 +1,5 @@
 #-*- encoding: utf-8
+require 'base64'
 
 def file_name_hash(request)
   Digest::SHA256.hexdigest(request.ip.to_s + Time.now.to_s)
@@ -60,8 +61,16 @@ def routing_post
   post '/post/direct' do
     begin
       user_id = params[:user_id].to_i
-      data = params[:data]
+      data = Base64.decode64(params[:data])
+      extension = params[:extension]
+      content_type = params[:content_type]
       file_name_hash = file_name_hash(request)
+
+      bucket = Connector.s3_bucket
+      object = bucket.objects["uploads/#{file_name_hash}.#{extension}"]
+      object.write(data, content_type: content_type)
+
+      Post.create(user_id, file_name_hash, extension)
     rescue => e
       raise_helper(e, params)
     end

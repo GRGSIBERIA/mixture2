@@ -12,8 +12,11 @@ class Connector
     Sequel.mysql2(nil, dbopts)
   end
 
-  def self.s3
-    
+  def self.s3_bucket
+    s3 = AWS::S3.new(
+      :access_key_id => MIXTURE_FREE_ACCESS_KEY,
+      :secret_access_key => MIXTURE_FREE_SECRET_KEY)
+    s3.buckets['mixture-posts']
   end
 end
 
