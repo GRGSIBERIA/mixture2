@@ -55,4 +55,15 @@ def routing_post
     end
     slim :render_simple
   end
+
+  # base64を受け取って直接S3へアップロードする
+  post '/post/direct' do
+    begin
+      user_id = params[:user_id].to_i
+      data = params[:data]
+      file_name_hash = file_name_hash(request)
+    rescue => e
+      raise_helper(e, params)
+    end
+  end
 end
