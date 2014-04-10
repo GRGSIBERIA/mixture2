@@ -26,6 +26,21 @@ class Post < Sequel::Model
     post
   end
 
+  def self.new_post(user_id, file_hash, extension, tags)
+    post = Post.create(user_id, file_name_hash, extension)
+
+    unless tags.nil? then
+      tags = tags.downcase.sub(" ","").split(',')
+      tags_arr = []
+      tags.each do |tag| 
+        tags_arr << Tag.find_create(tag)
+      end
+      tags_arr.each do |tag|
+        PostTag.check_as_create(post[:id], tag[:id])
+      end
+    end
+  end
+
   def self.listing(page_num=0, order="desc")
     ListingHelper.listing_basic(:posts, :contents, page_num, order)
   end

@@ -65,17 +65,13 @@ def routing_post
       extension = params[:extension]
       content_type = params[:content_type]
       file_name_hash = file_name_hash(request)
-      params[:tags] ||= ""
-      tags = params[:tags].downcase.sub(" ","").split(',')
+      tags = params[:tags]
 
       bucket = Connector.s3_bucket
       object = bucket.objects["uploads/#{file_name_hash}#{extension}"]
       object.write(data, content_type: content_type)
 
-      Post.create(user_id, file_name_hash, extension)
-      tags.each do |tag| 
-        Tag.find_create(tag)
-      end
+      Post.new_post(user_id, file_name_hash, extension, tags)
     rescue => e
       raise_helper(e, params)
     end
