@@ -66,7 +66,7 @@ def routing_post
       content_type = params[:content_type]
       file_name_hash = file_name_hash(request)
       params[:tags] ||= ""
-      tags = params[:tags].replace(" ","").split(',')
+      tags = params[:tags].downcase.replace(" ","").split(',')
 
       bucket = Connector.s3_bucket
       object = bucket.objects["uploads/#{file_name_hash}#{extension}"]

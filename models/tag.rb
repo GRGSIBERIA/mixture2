@@ -16,7 +16,6 @@ class Tag < Sequel::Model
   end
 
   def self.find_create(tag_name)
-    tag_name = tag_name.downcase
     Model.find_or_create(Tag, {name: tag_name}, {name: tag_name, created_at: Time.now.to_s})
   end
 end
