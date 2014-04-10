@@ -27,7 +27,7 @@ class Post < Sequel::Model
   end
 
   def self.new_post(user_id, file_hash, extension, tags)
-    post = Post.create(user_id, file_name_hash, extension)
+    post = Post.create(user_id, file_hash, extension)
 
     unless tags.nil? then
       tags = tags.downcase.sub(" ","").split(',')
@@ -36,7 +36,7 @@ class Post < Sequel::Model
         tags_arr << Tag.find_create(tag)
       end
       tags_arr.each do |tag|
-        PostTag.check_as_create(post[:id], tag[:id])
+        PostTag.check_as_create(post.id, tag.id)
       end
     end
   end

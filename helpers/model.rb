@@ -19,6 +19,7 @@ module Model
       end
       inst.validate 
       raise ArgumentError, inst.errors.full_messages.join("<br>") unless inst.valid?
+      inst
     }
   end
 
