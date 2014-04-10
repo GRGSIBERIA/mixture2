@@ -9,7 +9,9 @@ class Post < Sequel::Model
 
   def validate
     super
-    validates_of_presence [:user_id, :file_hash, :extension, :created_at]
+    validates_presence [:user_id, :file_hash, :extension, :created_at]
+    validates_integer :user_id
+    validates_type String, [:file_hash, :extension]
   end
 
   def self.create(user_id, file_hash, extension)
