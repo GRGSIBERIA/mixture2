@@ -9,7 +9,7 @@ class Tag < Sequel::Model
 
     validates_unique :name
 
-    validates_format(/\A\w+\z/, :name)
+    validates_format(/\A[a-z_]+\z/, :name)
 
     errors.add(:name, 'name include the invalid word.') if INVALID_WORDS.include?(name)
     errors.add(:name, 'name is only number.') if name =~ /\A\d+\z/
