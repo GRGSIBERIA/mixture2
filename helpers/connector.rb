@@ -1,3 +1,6 @@
+#-*- encoding: utf-8
+require 'aws-sdk'
+
 class Connector
   def self.mysql
     dbconfig = YAML::load_file("./config/database.yml")
