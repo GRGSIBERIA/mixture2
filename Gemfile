@@ -10,7 +10,6 @@ gem "slim"
 gem "aws-sdk"
 gem "mysql2"
 gem "sequel"
-gem "moji"
 
 group :test do 
   gem "rspec"
