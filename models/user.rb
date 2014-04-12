@@ -33,7 +33,7 @@ class User < Sequel::Model
     user = User.new(
       name: name,
       password: Crypt.encrypt_stretch(password, PASSWORD_SALT),
-      email:    Crypt.encrypt_stretch(email, MAIL_SALT),
+      email:    Crypt.encrypt_stretch(email, EMAIL_SALT),
       created_at: Time.now.to_s)
     user.validate 
     raise ArgumentError, user.errors.full_messages.join("<br>") unless user.valid?
