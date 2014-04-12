@@ -59,6 +59,7 @@ def routing_post
 
   # base64を受け取って直接S3へアップロードする
   post '/post/direct' do
+    result = "failed"
     begin
       user_id = params[:user_id].to_i
       data = Base64.decode64(params[:data])
@@ -69,12 +70,14 @@ def routing_post
 
       bucket = Connector.s3_bucket
       object = bucket.objects["uploads/#{file_name_hash}#{extension}"]
-      object.write(data, content_type: content_type)
+      object.write(data, content_type: content_type, acl: :public_read)
 
       Post.new_post(user_id, file_name_hash, extension, tags)
+      result = object.public_url
     rescue => e
       raise_helper(e, params)
     end
-    "success"
+    @render = result
+    slim :render_simple
   end
 end
