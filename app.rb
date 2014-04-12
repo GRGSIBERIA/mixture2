@@ -71,5 +71,4 @@ class Server < Sinatra::Base
   rooting_list
 end
 
-
 Server.run! port: 3000
